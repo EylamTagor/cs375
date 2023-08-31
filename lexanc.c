@@ -34,24 +34,52 @@
    12345 123    345  357
    */
 
-/* Skip blanks and whitespace.  Expand this function to skip comments too. */
+/* Checks if a character (represented by int) is considered whitespace. */
+bool iswhitespace(int c) {
+  return c == ' ' || c == '\n' || c == '\t';
+}
+
+/* Skip blanks, comments and whitespace. */
+
 void skipblanks ()
   {
       int c;
-      while ((c = peekchar()) != EOF
-             && (c == ' ' || c == '\n' || c == '\t'))
-          getchar();
+      while ((c = peekchar()) != EOF && (iswhitespace(c) || c == '{' || (c == '(' && peek2char() == '*'))) {
+          if iswhitespace(c)
+              getchar();
+          else {
+              if c == '{'
+                  while ((c = peekchar()) != EOF && c != '}')
+                      getchar();
+
+              else if c == '()' && peek2char() == '*'
+                  int d = peek2char();
+                  
+                  while(d != EOF && c != '*' && d != ')') {
+                      getchar();
+                      c = peekchar();
+                      d = peek2char();
+                  }
+          }
+      }
+
+      /* skip everything between { and } */
+      
+      /* skip everything between (* and *) */
     }
 
 /* Get identifiers and reserved words */
+// TODO
 TOKEN identifier (TOKEN tok)
   {
     }
 
+// TODO
 TOKEN getstring (TOKEN tok)
   {
     }
 
+// TODO
 TOKEN special (TOKEN tok)
   {
     }
