@@ -1,4 +1,7 @@
 /* lex1.c         14 Feb 01; 31 May 12; 11 Jan 18       */
+/*  Eylam Tagor
+    et23634
+    8/26/2023 */
 
 /* This file contains code stubs for the lexical analyzer.
    Rename this file to be lexanc.c and fill in the stubs.    */
@@ -22,6 +25,7 @@
 */
 
 #include <stdio.h>
+#include <stdbool.h> // for bool return value of iswhitespace()
 #include <ctype.h>
 #include <string.h>
 #include "token.h"
@@ -36,36 +40,59 @@
 
 /* Checks if a character (represented by int) is considered whitespace. */
 bool iswhitespace(int c) {
-  return c == ' ' || c == '\n' || c == '\t';
+    return c == ' ' || c == '\n' || c == '\t';
+}
+
+/* Skip to the end of a {...} comment */
+void skipbracketcomment(int c) {
+    while ((c = peekchar()) != EOF && c != '}') {
+        getchar();
+    }
+}
+
+/* Skip to the end of a (*...*) comment */
+void skipstarcomment(int c, int d) {
+    while ((c = peekchar()) != EOF && (d = peek2char()) != EOF && (c != '*' || d != ')')) {
+        getchar();
+    }
 }
 
 /* Skip blanks, comments and whitespace. */
-
 void skipblanks ()
   {
       int c;
-      while ((c = peekchar()) != EOF && (iswhitespace(c) || c == '{' || (c == '(' && peek2char() == '*'))) {
-          if iswhitespace(c)
-              getchar();
-          else {
-              if c == '{'
-                  while ((c = peekchar()) != EOF && c != '}')
-                      getchar();
 
-              else if c == '()' && peek2char() == '*'
-                  int d = peek2char();
-                  
-                  while(d != EOF && c != '*' && d != ')') {
-                      getchar();
-                      c = peekchar();
-                      d = peek2char();
-                  }
+      while ((c = peekchar()) != EOF) {
+          if (iswhitespace(c)) { // if encountered whitespace char, skip
+              getchar();
+          } else if (c == '{') { // if encoutered '{' comment, go to after its end
+
+              // get to start of comment content
+              getchar();
+
+              skipbracketcomment(c);
+
+              // skip ending '}'
+              getchar();
+          } else if (c == '(') { // if encountered '(*' comment, go to after its end
+              int d;
+              d = peek2char();
+
+              // get to start of comment content
+              getchar();
+              getchar();
+
+              if (d == '*') {
+                  skipstarcomment(c, d);
+              }
+
+              // skip ending '*)'
+              getchar();
+              getchar();
+          } else { // not a blank -> used for a token
+              break;
           }
       }
-
-      /* skip everything between { and } */
-      
-      /* skip everything between (* and *) */
     }
 
 /* Get identifiers and reserved words */
@@ -100,4 +127,3 @@ TOKEN number (TOKEN tok)
     tok->intval = num;
     return (tok);
   }
-
