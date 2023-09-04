@@ -25,11 +25,29 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h> // for bool return value of iswhitespace()
 #include <ctype.h>
 #include <string.h>
 #include "token.h"
 #include "lexan.h"
+
+#define MAX_SIZE 16
+#define MAX_SPECIAL_SIZE 3
+
+static char* operators[]  = {" ", "+", "-", "*", "/", ":=", "=", "<>", "<", "<=",
+                          ">=", ">",  "^", ".", "and", "or", "not", "div",
+                          "mod", "in", "if", "goto", "progn", "label",
+                          "funcall", "aref", "program", "float"};
+static char *delimiters[] = { " ", ",", ";", ":", "(", ")", "[", "]",
+                           ".."} ; // removed space prefix from printtoken.c's version
+static char *reswords[] = { " ", "array", "begin", "case", "const", "do",
+                           "downto", "else", "end", "file", "for",
+		           "function", "goto", "if", "label", "nil",
+                           "of", "packed", "procedure", "program", "record",
+                           "repeat", "set", "then", "to", "type",
+		           "until", "var", "while", "with" };
+
 
 /* This file will work as given with an input file consisting only
    of integers separated by blanks:
@@ -96,19 +114,126 @@ void skipblanks ()
     }
 
 /* Get identifiers and reserved words */
-// TODO
 TOKEN identifier (TOKEN tok)
   {
+    int c;
+    char id[MAX_SIZE]; // 16 bits: 15 and 1 for null terminator
+
+    // if alpha char, proceed
+    if ((c = peekchar()) != EOF && CHARCLASS[c] == ALPHA) {
+        // read it in, allowing numbers too
+        int i;
+        for (i = 0; (c = peekchar()) != EOF && i < MAX_SIZE - 1 && (CHARCLASS[c] == ALPHA || CHARCLASS[c] == NUMERIC); i++) {
+            id[i] = getchar();
+        }
+
+        // make sure id is null-terminated
+        id[i] = 0;
+        
+        // check if reserved word using ptr arithmetic        
+        for (char** rw = reswords; rw < reswords + sizeof(reswords) / sizeof(void *); rw++) {
+            if (strcmp(id, *rw) == 0) {
+                // found reserve word
+                tok->tokentype = RESERVED;
+                tok->whichval = (rw - reswords);
+                return tok;
+            }
+        }
+
+        // check if operator using ptr arithmetic
+        for (char** op = operators; op < operators + sizeof(operators) / sizeof(void *); op++) {
+            if (strcmp(id, *op) == 0) {
+                // found operator
+                tok->tokentype = OPERATOR;
+                tok->whichval = (op - operators);
+                return tok;
+            }
+        }
+
+        // otherwise, it is a regular identifier
+        tok->tokentype = IDENTIFIERTOK;
+        strcpy(tok->stringval, id);
     }
 
-// TODO
+    return tok;
+    }
+
+/* Reads in a string, validates it, and converts it to a token, returning the result. */
 TOKEN getstring (TOKEN tok)
   {
+    int c;
+    char s[MAX_SIZE]; // 16 bits: 15 and 1 for null terminator
+
+    // if starts with '\'', proceed
+    if ((c = peekchar()) != EOF && c== '\'') {
+        getchar(); // skip starting '\''
+
+        int d; // for double quotes check
+
+        int i;
+        for (i = 0; (c = peekchar()) != EOF && i < MAX_SIZE - 1 && (c != '\'' || (d = peek2char()) == '\''); i++) {
+            // if double quote, only add one by skipping 1 char
+            if (c == '\'' && d == '\'') {
+                getchar();
+            }
+
+            s[i] = getchar();
+        }
+
+        // make sure s is null-terminated
+        s[i] = 0;
+
+        // skip ending '\''
+        getchar();
+
+        // set token properties
+        tok->tokentype = STRINGTOK;
+        strcpy(tok->stringval, s);
     }
 
-// TODO
+    return tok;
+    }
+
+/* Reads in a special character, classifies it as a delimiter or operator, and returns it. */
 TOKEN special (TOKEN tok)
   {
+    int c;
+    char s[MAX_SPECIAL_SIZE]; // 3 bits: 2 and 1 for null terminator
+
+    if ((c = peekchar()) != EOF) {
+        int i;
+        for (i = 0; (c = peekchar()) != EOF && i < MAX_SPECIAL_SIZE - 1 && CHARCLASS[c] == SPECIAL; i++) {
+            s[i] = getchar();
+        }
+
+        // make sure s is null-terminated
+        s[i] = 0;
+
+        // check if delimiter using ptr arithmetic        
+        for (char** dl = delimiters; dl < delimiters + sizeof(delimiters) / sizeof(void *); dl++) {
+            if (strcmp(s, *dl) == 0) {
+                // found delimiter
+                tok->tokentype = DELIMITER;
+                tok->whichval = (dl - delimiters);
+                return tok;
+            }
+        }
+
+        // check if operator using ptr arithmetic
+        for (char** op = operators; op < operators + sizeof(operators) / sizeof(void *); op++) {
+            if (strcmp(s, *op) == 0) {
+                // found operator
+                tok->tokentype = OPERATOR;
+                tok->whichval = (op - operators);
+                return tok;
+            }
+        }
+
+        // otherwise, this is an error
+        exit(1);
+    }
+
+    return tok;
     }
 
 /* Get and convert unsigned numbers of all types. */
