@@ -25,6 +25,7 @@
 */
 
 #include <stdio.h>
+#include <math.h>
 #include <stdlib.h>
 #include <stdbool.h> // for bool return value of iswhitespace()
 #include <ctype.h>
@@ -34,6 +35,14 @@
 
 #define MAX_SIZE 16
 #define MAX_SPECIAL_SIZE 3
+
+#define MAX_NUM ((1 << 31) - 1)
+
+#define MIN_SIG 1.17549
+#define MAX_SIG 3.40282
+
+#define MIN_EXP -38
+#define MAX_EXP 38
 
 static char* operators[]  = {" ", "+", "-", "*", "/", ":=", "=", "<>", "<", "<=",
                           ">=", ">",  "^", ".", "and", "or", "not", "div",
@@ -70,9 +79,18 @@ void skipbracketcomment(int c) {
 
 /* Skip to the end of a (*...*) comment */
 void skipstarcomment(int c, int d) {
+    // skip starting (*
+    getchar();
+    getchar();
+
+    // get to next *)
     while ((c = peekchar()) != EOF && (d = peek2char()) != EOF && (c != '*' || d != ')')) {
         getchar();
     }
+
+    // skip ending '*)'
+    getchar();
+    getchar();
 }
 
 /* Skip blanks, comments and whitespace. */
@@ -96,17 +114,12 @@ void skipblanks ()
               int d;
               d = peek2char();
 
-              // get to start of comment content
-              getchar();
-              getchar();
-
               if (d == '*') {
                   skipstarcomment(c, d);
+              } else {
+                break; // just a regular (
               }
 
-              // skip ending '*)'
-              getchar();
-              getchar();
           } else { // not a blank -> used for a token
               break;
           }
@@ -230,25 +243,143 @@ TOKEN special (TOKEN tok)
         }
 
         // otherwise, this is an error
+        printf("Invalid token.");
         exit(1);
     }
 
     return tok;
     }
 
+void handleoverflow(bool overflow) {
+    if (overflow) {
+        printf("Overflow.");
+    }
+}
+
+double updatenum(int c, double num) {
+    num *= 10; // move to next place
+    num += (c - '0'); // update new digit with numerical value
+    return num;
+}
+
 /* Get and convert unsigned numbers of all types. */
 TOKEN number (TOKEN tok)
-  { long num;
-    int  c, charval;
-    num = 0;
-    while ( (c = peekchar()) != EOF
-            && CHARCLASS[c] == NUMERIC)
-      {   c = getchar();
-          charval = (c - '0');
-          num = num * 10 + charval;
+  {
+    double num = 0; // actual value of token
+    int leadingdigits = 0; // number of digits before the .
+    int trailingdigits = 0;
+
+    bool overflow = false; // true if UNSIGNED overflow occurred
+
+    // skip to the first non-zero digit
+    int c;
+    while ((c = peekchar()) != EOF && c != '0') {
+        getchar();
+    }
+
+    // read digits until . or e
+    while ((c = peekchar()) != EOF && c != '.' && c != 'e') {
+        c = getchar();
+
+        // account for overflow
+        if (num * 10 + (c - '0') > MAX_NUM) {
+            overflow = true;
+            // TODO backupnum
         }
+
+        num = updatenum(c, num);
+
+        leadingdigits++;
+    }
+
+    // classify number
+    c = peekchar();
+    int d = peek2char();
+    if (c != EOF && c == '.') { // if reached a dot, classify further
+        if (d != EOF && d == '.') { // this is a range
+            tok->tokentype = NUMBERTOK;
+            tok->basicdt = INTEGER;
+
+            handleoverflow(overflow);
+
+            tok->intval = num;
+        } else if (d != EOF && CHARCLASS[d] == NUMERIC) { // this is a float, read rest of digits
+            getchar(); // get past .
+
+            // get digits after the .
+            while ((c == peekchar()) != EOF && CHARCLASS[c] == NUMERIC) {
+                c = getchar();
+
+                num = updatenum(c, num);
+                trailingdigits++;
+            }
+        }
+    } else if (c != EOF && CHARCLASS[c] != NUMERIC && c != 'e') { // check if this is a regular integer
+        tok->tokentype = NUMBERTOK;
+        tok->basicdt = INTEGER;
+
+        handleoverflow(overflow);
+
+        tok->intval = num;
+    }
+
     tok->tokentype = NUMBERTOK;
-    tok->basicdt = INTEGER;
-    tok->intval = num;
-    return (tok);
-  }
+    tok->basicdt = REAL;
+
+    // handle exponent (if there is one, it is a float no matter what)
+    int exponent = 0;
+    bool posexpo = true;
+    if ((c = peekchar()) != EOF && c == 'e') {
+        // get past 'e'
+        getchar();
+
+        // check sign of exponent
+        if ((c == peekchar()) != EOF && c == '-') {
+            getchar();
+
+            // update exponent sign
+            posexpo = false;
+        } else if ((c == peekchar()) != EOF && c == '+') {
+            getchar();
+
+            posexpo = true;
+        }
+
+        // read in exponent
+        while ((c == peekchar()) != EOF && CHARCLASS[c] == NUMERIC) {
+            c = getchar();
+
+            exponent = (int)updatenum(c, (double)exponent);
+        }
+    }
+
+    // flip value if negative exponent
+    if (!posexpo) {
+        exponent *= -1;
+    }
+
+    // calculate significand
+    double sig = num / pow(10, trailingdigits);
+    if (leadingdigits > 1) {
+        // leading digits, adjust exponent
+        sig /= pow(10, leadingdigits - 1);
+        exponent += leadingdigits - 1;
+    } else {
+        // no leading digits, adjust exponent
+        while (sig < 1) {
+            sig *= 10;
+            exponent--;
+        }
+    }
+
+    // handle SIGNED over/underflow
+    if ((sig > MIN_SIG && exponent <= MIN_EXP) || (sig > MAX_SIG && exponent >= MAX_EXP)) {
+        handleoverflow(true);
+    } else if (exponent < 0) {
+        tok->realval = sig / pow(10, exponent * -1);
+    } else {
+        tok->realval = sig * pow(10, exponent);
+    }
+
+    return tok;
+    }
