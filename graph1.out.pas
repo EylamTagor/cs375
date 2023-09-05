@@ -8,7 +8,7 @@ tokentype:  1  which:    2            ;
 tokentype:  2  which:    4        const
 tokentype:  3  value:                 d
 tokentype:  0  which:    6            =
-tokentype:  5  type:     1 6.250000e-03
+tokentype:  5  type:     1 6.250000e-02
 tokentype:  1  which:    2            ;
 tokentype:  3  value:                 s
 tokentype:  0  which:    6            =
@@ -20,7 +20,7 @@ tokentype:  5  type:     0           34
 tokentype:  1  which:    2            ;
 tokentype:  3  value:                 c
 tokentype:  0  which:    6            =
-tokentype:  5  type:     1 6.028318e+00
+tokentype:  5  type:     1 6.283180e+00
 tokentype:  1  which:    2            ;
 tokentype:  3  value:               lim
 tokentype:  0  which:    6            =

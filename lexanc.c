@@ -376,16 +376,7 @@ TOKEN number (TOKEN tok)
 			tok->realval = 0; // erroneous value
 		}
 		else {
-			// int i;
-			// for (i = 0; i < decimal; i++) {
-			// 	if (mul) {
-			// 		num *= 10;
-			// 	}
-			// 	else {
-			// 		num /= 10;
-			// 	}
-			// }
-            num *= pow(10, decimal * (mul == true)); // TODO verify this works
+            num *= pow(10, decimal * (mul == true));
 
 			tok->realval = num;
 		}
@@ -401,11 +392,11 @@ TOKEN number (TOKEN tok)
 			// double temp = 1;
 
 			// int i;
-			// for (i = 1; i < counter; i++) {
+			// for (i = 1; i < digits; i++) {
 			// 	temp *= 10;
 			// }
-			// tok->realval = num + (frac / temp);
-            tok->realval = num + (decimal / pow(10, digits)); // TODO verify this works
+			// tok->realval = num + (decimal / temp);
+            tok->realval = num + (decimal / pow(10, digits - 1)); // TODO verify this works
 		}
 
 	} else {
