@@ -44,6 +44,9 @@
 #define MIN_EXP -38
 #define MAX_EXP 38
 
+/*
+    list of all character codes for operators, delimiters, and reserved words
+*/
 static char* operators[]  = {" ", "+", "-", "*", "/", ":=", "=", "<>", "<", "<=",
                           ">=", ">",  "^", ".", "and", "or", "not", "div",
                           "mod", "in", "if", "goto", "progn", "label",
@@ -331,15 +334,17 @@ TOKEN number (TOKEN tok)
 	bool isexp = false; // uses 'e'
 	bool posexpo = false; // if e value is +/unsigned or -
 
+    // for exponent calculations
 	double decimal = 0.0;
 	int digits = 1;
 
-	int zeroes = 0; // insigificant figures
+	int zeroes = 0; // aka insigificant figures
 
     // read in first part (before . or e)
     int d;
 	while ((c = peekchar()) != EOF && (CHARCLASS[c] == NUMERIC || c == '.' || c == 'e')) {
 		if (c == 'e' && (d = peek2char()) != EOF && (CHARCLASS[d] == NUMERIC || d == '+' || d == '-')) {
+            // exponent ("e") present -> classify sign
             if (d == '+') {
 				getchar();
 				posexpo = true;
@@ -357,12 +362,14 @@ TOKEN number (TOKEN tok)
 				isfloat = false;
 			}
 		} else if (c == '.') {
+            // decimal point -> regular float
 			if ((d = peek2char()) == EOF || d == '.' || CHARCLASS[d] != NUMERIC) {
 				break;
 			}
 
 			isfloat = true;
 		} else {
+            // numeric
 			if (isexp) {
 				decimal = updatedouble(c, decimal);
 			} else if (isfloat) {
@@ -387,7 +394,7 @@ TOKEN number (TOKEN tok)
 		tok->basicdt = REAL; // float no matter what
 
 		// skip zeroes
-		if ((zeroes - decimal) > MAX_EXP || (zeroes - decimal) < MIN_EXP) {
+		if ((zeroes - decimal) >= MAX_EXP || (zeroes - decimal) <= MIN_EXP) {
 			printf("Floating number out of range\n");
 			tok->realval = 0; // erroneous value
 		} else {
@@ -407,7 +414,7 @@ TOKEN number (TOKEN tok)
 		tok->basicdt = REAL;
 
 		// ignore unnecessary zeroes when checking for overflow
-		if ((zeroes - digits) > MAX_EXP || (zeroes - digits) < MIN_EXP) {
+		if ((zeroes - digits) >= MAX_EXP || (zeroes - digits) <= MIN_EXP) {
 			printf("Floating number out of range\n");
 			tok->realval = 0;
 		} else {

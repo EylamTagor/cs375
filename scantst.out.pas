@@ -61,6 +61,7 @@ tokentype:  5  type:     1 3.141593e-37
 Floating number out of range
 tokentype:  5  type:     1 0.000000e+00
 tokentype:  5  type:     1 3.141593e+37
-tokentype:  5  type:     1 3.141593e+39
+Floating number out of range
+tokentype:  5  type:     1 0.000000e+00
 Floating number out of range
 tokentype:  5  type:     1 0.000000e+00
