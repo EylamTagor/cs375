@@ -328,8 +328,8 @@ TOKEN number (TOKEN tok)
     int c;
 	double num = 0.0;
 	bool isfloat = false;
-	bool isexp = false;
-	bool posexpo = false; // for shifting
+	bool isexp = false; // uses 'e'
+	bool posexpo = false; // if e value is +/unsigned or -
 
 	double decimal = 0.0;
 	int digits = 1;
@@ -340,7 +340,7 @@ TOKEN number (TOKEN tok)
     int d;
 	while ((c = peekchar()) != EOF && (CHARCLASS[c] == NUMERIC || c == '.' || c == 'e')) {
 		if (c == 'e' && (d = peek2char()) != EOF && (CHARCLASS[d] == NUMERIC || d == '+' || d == '-')) {
-			if (d == '+') {
+            if (d == '+') {
 				getchar();
 				posexpo = true;
 			} else if (d == '-') {
@@ -350,9 +350,8 @@ TOKEN number (TOKEN tok)
 			}
 
 			isexp = true;
-
 			if (isfloat) {
-				num = num + (decimal / pow(10, digits));
+				num += (decimal / pow(10, digits - 1));
 				decimal = 0;
 				digits = 1;
 				isfloat = false;
@@ -375,7 +374,6 @@ TOKEN number (TOKEN tok)
 				num = updatedouble(c, num);
                 zeroes++;
 			}
-
 		}
 
         // skip char read in
@@ -414,12 +412,6 @@ TOKEN number (TOKEN tok)
 			tok->realval = 0;
 		} else {
             tok->realval = num + (decimal / pow(10, digits - 1));
-
-            // double temp = 1;
-            // for (int i = 1; i < digits; i++) {
-            //     temp *= 10;
-            // }
-            // tok->realval = num + (decimal / temp);
 		}
 
 	} else {
