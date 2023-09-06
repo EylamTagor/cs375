@@ -25,7 +25,7 @@
 */
 
 #include <stdio.h>
-#include <math.h>
+#include <math.h> // for pow()
 #include <stdlib.h>
 #include <stdbool.h> // for bool return value of iswhitespace()
 #include <ctype.h>
@@ -248,6 +248,7 @@ TOKEN special (TOKEN tok)
             bool delimfound = false;
             for (char** dl = delimiters; dl < delimiters + sizeof(delimiters) / sizeof(void *); dl++) {
                 if (strcmp(s, *dl) == 0) {
+                    // found delimiter
                     delimfound = true;
                 }
             }
@@ -302,26 +303,10 @@ TOKEN special (TOKEN tok)
     return tok;
     }
 
-/* calculatres if there is an overflow, and sends a message if there is */
-// void handleoverflow(bool* error, long* num, long* exponent) {
-//     if (*num > MAX_NUM || error) {
-//         printf("Overflow.");
-//         (*exponent)++;
-//         *error = true;
-//     }
-// }
-
-/* updates a number of type long with a new digit*/
-long updatelong(int c, long num) {
-    num *= 10; // move to next place
-    num += c - '0'; // update new digit with numerical value
-    return num;
-}
-
 /* updates a number of type double with a new digit */
 double updatedouble(int c, double num) {
-    num *= 10;
-    num += c - '0';
+    num *= 10; // move on to next place
+    num += c - '0'; // update new digit with numerical value
     return num;
 }
 
@@ -330,7 +315,7 @@ TOKEN number (TOKEN tok)
   {
     int c;
 	double num = 0.0;
-	bool isfloat = false;
+	bool isfloat = false; // uses 'e' or has '.'
 	bool isexp = false; // uses 'e'
 	bool posexpo = false; // if e value is +/unsigned or -
 
@@ -398,13 +383,10 @@ TOKEN number (TOKEN tok)
 			printf("Floating number out of range\n");
 			tok->realval = 0; // erroneous value
 		} else {
-            // TODO make original
-            for (int i = 0; i < decimal; i++) {
-                if (posexpo) {
-                    num *= 10;
-                } else {
-                    num /= 10;
-                }
+            if (posexpo) {
+                num *= pow(10, (int)decimal);
+            } else {
+                num /= pow(10, (int)decimal);
             }
 
 			tok->realval = num;
