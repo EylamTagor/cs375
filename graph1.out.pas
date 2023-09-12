@@ -1,105 +1,113 @@
 Started scanner test.
-tokentype:  2  which:   19      program
-tokentype:  3  value:            graph1
-tokentype:  1  which:    4            (
-tokentype:  3  value:            output
-tokentype:  1  which:    5            )
-tokentype:  1  which:    2            ;
-tokentype:  2  which:    4        const
-tokentype:  3  value:                 d
-tokentype:  0  which:    6            =
-tokentype:  5  type:     1 6.250000e-02
-tokentype:  1  which:    2            ;
-tokentype:  3  value:                 s
-tokentype:  0  which:    6            =
-tokentype:  5  type:     0           32
-tokentype:  1  which:    2            ;
-tokentype:  3  value:                 h
-tokentype:  0  which:    6            =
-tokentype:  5  type:     0           34
-tokentype:  1  which:    2            ;
-tokentype:  3  value:                 c
-tokentype:  0  which:    6            =
-tokentype:  5  type:     1 6.283180e+00
-tokentype:  1  which:    2            ;
-tokentype:  3  value:               lim
-tokentype:  0  which:    6            =
-tokentype:  5  type:     0           32
-tokentype:  1  which:    2            ;
-tokentype:  2  which:   27          var
-tokentype:  3  value:                 x
-tokentype:  1  which:    1            ,
-tokentype:  3  value:                 y
-tokentype:  1  which:    3            :
-tokentype:  3  value:              real
-tokentype:  1  which:    2            ;
-tokentype:  3  value:                 i
-tokentype:  1  which:    1            ,
-tokentype:  3  value:                 n
-tokentype:  1  which:    3            :
-tokentype:  3  value:           integer
-tokentype:  1  which:    2            ;
-tokentype:  2  which:    2        begin
-tokentype:  2  which:   10          for
-tokentype:  3  value:                 i
-tokentype:  0  which:    5           :=
-tokentype:  5  type:     0            0
-tokentype:  2  which:   24           to
-tokentype:  3  value:               lim
-tokentype:  2  which:    5           do
-tokentype:  2  which:    2        begin
-tokentype:  3  value:                 x
-tokentype:  0  which:    5           :=
-tokentype:  3  value:                 d
-tokentype:  0  which:    3            *
-tokentype:  3  value:                 i
-tokentype:  1  which:    2            ;
-tokentype:  3  value:                 y
-tokentype:  0  which:    5           :=
-tokentype:  3  value:               exp
-tokentype:  1  which:    4            (
-tokentype:  0  which:    2            -
-tokentype:  3  value:                 x
-tokentype:  1  which:    5            )
-tokentype:  0  which:    3            *
-tokentype:  3  value:               sin
-tokentype:  1  which:    4            (
-tokentype:  3  value:                 c
-tokentype:  0  which:    3            *
-tokentype:  3  value:                 x
-tokentype:  1  which:    5            )
-tokentype:  1  which:    2            ;
-tokentype:  3  value:                 n
-tokentype:  0  which:    5           :=
-tokentype:  3  value:             round
-tokentype:  1  which:    4            (
-tokentype:  3  value:                 s
-tokentype:  0  which:    3            *
-tokentype:  3  value:                 y
-tokentype:  1  which:    5            )
-tokentype:  0  which:    1            +
-tokentype:  3  value:                 h
-tokentype:  1  which:    2            ;
-tokentype:  2  which:   21       repeat
-tokentype:  3  value:             write
-tokentype:  1  which:    4            (
-tokentype:  4  value:                  
-tokentype:  1  which:    5            )
-tokentype:  1  which:    2            ;
-tokentype:  3  value:                 n
-tokentype:  0  which:    5           :=
-tokentype:  3  value:                 n
-tokentype:  0  which:    2            -
-tokentype:  5  type:     0            1
-tokentype:  2  which:   26        until
-tokentype:  3  value:                 n
-tokentype:  0  which:    6            =
-tokentype:  5  type:     0            0
-tokentype:  1  which:    2            ;
-tokentype:  3  value:           writeln
-tokentype:  1  which:    4            (
-tokentype:  4  value:                 *
-tokentype:  1  which:    5            )
-tokentype:  2  which:    8          end
-tokentype:  2  which:    8          end
-tokentype:  0  which:   13            .
+{yylex() =  258   tokentype:  3  value:           program
+yylex() =  260   tokentype:  5  type:     1 4.900000e+00
+yylex() =  258   tokentype:  3  value:              from
+yylex() =  258   tokentype:  3  value:            Jensen
+&yylex() =  258   tokentype:  3  value:             Wirth
+--yylex() =  258   tokentype:  3  value:              file
+yylex() =  258   tokentype:  3  value:            graph1
+yylex() =  273   tokentype:  0  which:   13            .
+yylex() =  258   tokentype:  3  value:               pas
+}yylex() =  258   tokentype:  3  value:           program
+yylex() =  258   tokentype:  3  value:            graph1
+(yylex() =  258   tokentype:  3  value:            output
+)yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  258   tokentype:  3  value:             const
+yylex() =  258   tokentype:  3  value:                 d
+yylex() =  266   tokentype:  0  which:    6            =
+yylex() =  260   tokentype:  5  type:     1 6.250000e-02
+yylex() =  281   tokentype:  1  which:    2            ;
+{yylex() =  260   tokentype:  5  type:     1 1.000000e+00
+/yylex() =  260   tokentype:  5  type:     1 1.600000e+01
+,yylex() =  260   tokentype:  5  type:     1 1.600000e+01
+yylex() =  258   tokentype:  3  value:             lines
+yylex() =  258   tokentype:  3  value:               for
+yylex() =  258   tokentype:  3  value:          interval
+[yylex() =  258   tokentype:  3  value:                 x
+,yylex() =  258   tokentype:  3  value:                 x
++yylex() =  260   tokentype:  5  type:     1 1.000000e+00
+]}yylex() =  258   tokentype:  3  value:                 s
+yylex() =  266   tokentype:  0  which:    6            =
+yylex() =  260   tokentype:  5  type:     1 3.200000e+01
+yylex() =  281   tokentype:  1  which:    2            ;
+{yylex() =  260   tokentype:  5  type:     1 3.200000e+01
+yylex() =  258   tokentype:  3  value:         character
+yylex() =  258   tokentype:  3  value:            widths
+yylex() =  258   tokentype:  3  value:               for
+yylex() =  258   tokentype:  3  value:          interval
+[yylex() =  258   tokentype:  3  value:                 y
+,yylex() =  258   tokentype:  3  value:                 y
++yylex() =  260   tokentype:  5  type:     1 1.000000e+00
+]}yylex() =  258   tokentype:  3  value:                 h
+yylex() =  266   tokentype:  0  which:    6            =
+yylex() =  260   tokentype:  5  type:     1 3.400000e+01
+yylex() =  281   tokentype:  1  which:    2            ;
+{yylex() =  258   tokentype:  3  value:         character
+yylex() =  258   tokentype:  3  value:          position
+yylex() =  258   tokentype:  3  value:                of
+yylex() =  258   tokentype:  3  value:                 x
+-yylex() =  258   tokentype:  3  value:              axis
+}yylex() =  258   tokentype:  3  value:                 c
+yylex() =  266   tokentype:  0  which:    6            =
+yylex() =  260   tokentype:  5  type:     1 6.283180e+00
+yylex() =  281   tokentype:  1  which:    2            ;
+{yylex() =  260   tokentype:  5  type:     1 2.000000e+00
+*yylex() =  258   tokentype:  3  value:                pi
+}yylex() =  258   tokentype:  3  value:               lim
+yylex() =  266   tokentype:  0  which:    6            =
+yylex() =  260   tokentype:  5  type:     1 3.200000e+01
+yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  258   tokentype:  3  value:               var
+yylex() =  258   tokentype:  3  value:                 x
+,yylex() =  258   tokentype:  3  value:                 y
+:yylex() =  258   tokentype:  3  value:              real
+yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  258   tokentype:  3  value:                 i
+,yylex() =  258   tokentype:  3  value:                 n
+:yylex() =  258   tokentype:  3  value:           integer
+yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  289   tokentype:  2  which:    2        begin
+yylex() =  258   tokentype:  3  value:               for
+yylex() =  258   tokentype:  3  value:                 i
+yylex() =  265   tokentype:  0  which:    5           :=
+yylex() =  260   tokentype:  5  type:     1 0.000000e+00
+yylex() =  258   tokentype:  3  value:                to
+yylex() =  258   tokentype:  3  value:               lim
+yylex() =  258   tokentype:  3  value:                do
+yylex() =  289   tokentype:  2  which:    2        begin
+yylex() =  258   tokentype:  3  value:                 x
+yylex() =  265   tokentype:  0  which:    5           :=
+yylex() =  258   tokentype:  3  value:                 d
+*yylex() =  258   tokentype:  3  value:                 i
+yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  258   tokentype:  3  value:                 y
+yylex() =  265   tokentype:  0  which:    5           :=
+yylex() =  258   tokentype:  3  value:               exp
+(-yylex() =  258   tokentype:  3  value:                 x
+)*yylex() =  258   tokentype:  3  value:               sin
+(yylex() =  258   tokentype:  3  value:                 c
+*yylex() =  258   tokentype:  3  value:                 x
+)yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  258   tokentype:  3  value:                 n
+yylex() =  265   tokentype:  0  which:    5           :=
+yylex() =  258   tokentype:  3  value:             round
+(yylex() =  258   tokentype:  3  value:                 s
+*yylex() =  258   tokentype:  3  value:                 y
+)+yylex() =  258   tokentype:  3  value:                 h
+yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  258   tokentype:  3  value:            repeat
+yylex() =  258   tokentype:  3  value:             write
+('')yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  258   tokentype:  3  value:                 n
+yylex() =  265   tokentype:  0  which:    5           :=
+yylex() =  258   tokentype:  3  value:                 n
+-yylex() =  260   tokentype:  5  type:     1 1.000000e+00
+yylex() =  258   tokentype:  3  value:             until
+yylex() =  258   tokentype:  3  value:                 n
+yylex() =  266   tokentype:  0  which:    6            =
+yylex() =  260   tokentype:  5  type:     1 0.000000e+00
+yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  258   tokentype:  3  value:           writeln
+('*')yylex() =  295   tokentype:  2  which:    8          end
+yylex() =  295   tokentype:  2  which:    8          end
+yylex() =  273   tokentype:  0  which:   13            .
