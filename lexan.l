@@ -72,75 +72,12 @@ id       {letter}({letter}|{digit})*
 fnumber  {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 
 inumber  {digit}+
-string   \'([^\']*\'\'[^\']*)*'
+string   '(?:[^']|'')*'
+
 
 %%
 
 {ws}      { /* no action and no return */ }
-if        {return(maketoken(RESERVED, IF));}
-then      {return(maketoken(RESERVED, THEN));}
-else      {return(maketoken(RESERVED, ELSE));}
-begin     {return(maketoken(RESERVED, BEGINBEGIN));}
-end       {return(maketoken(RESERVED, END));}
-{id}      {return(install_id());}
-{fnumber} {return(install_fnum());}
-"<"       {return(maketoken(OPERATOR, LT));}
-"<="      {return(maketoken(OPERATOR, LE));}
-"="       {return(maketoken(OPERATOR, EQ));}
-"<>"      {return(maketoken(OPERATOR, NE));}
-">"       {return(maketoken(OPERATOR, GT));}
-">="      {return(maketoken(OPERATOR, GE));}
-":="      {return(maketoken(OPERATOR, ASSIGN));}
-"."       {return(maketoken(OPERATOR, DOT));}
-";"       {return(maketoken(DELIMITER, SEMICOLON));}
-
-{inumber} {return(install_inum());}
-{string}  {return(install_string());}
-
-"+"       {return(maketoken(OPERATOR, PLUS));}
-"-"       {return(maketoken(OPERATOR, MINUS));}
-"*"       {return(maketoken(OPERATOR, TIMES));}
-"/"       {return(maketoken(OPERATOR, DIVIDE));}
-"^"       {return(maketoken(OPERATOR, POINT));}
-and       {return(maketoken(OPERATOR, AND));}
-or        {return(maketoken(OPERATOR, OR));}
-not       {return(maketoken(OPERATOR, NOT));}
-div       {return(maketoken(OPERATOR, DIV));}
-mod       {return(maketoken(OPERATOR, MOD));}
-in        {return(maketoken(OPERATOR, IN));}
-goto      {return(maketoken(RESERVED, GOTO));}
-label     {return(maketoken(RESERVED, LABEL));}
-program   {return(maketoken(RESERVED, PROGRAM));}
-
-","       {return(maketoken(DELIMITER, COMMA));}
-":"       {return(maketoken(DELIMITER, COLON));}
-"("       {return(maketoken(DELIMITER, LPAREN));}
-")"       {return(maketoken(DELIMITER, RPAREN));}
-"["       {return(maketoken(DELIMITER, LBRACKET));}
-"]"       {return(maketoken(DELIMITER, RBRACKET));}
-".."      {return(maketoken(DELIMITER, DOTDOT));}
-
-array     {return(maketoken(RESERVED, ARRAY));}
-case      {return(maketoken(RESERVED, CASE));}
-const     {return(maketoken(RESERVED, CONST));}
-do        {return(maketoken(RESERVED, DO));}
-downto    {return(maketoken(RESERVED, DOWNTO));}
-file      {return(maketoken(RESERVED, FILEFILE));}
-for       {return(maketoken(RESERVED, FOR));}
-function  {return(maketoken(RESERVED, FUNCTION));}
-nil       {return(maketoken(RESERVED, NIL));}
-of        {return(maketoken(RESERVED, OF));}
-packed    {return(maketoken(RESERVED, PACKED));}
-procedure {return(maketoken(RESERVED, PROCEDURE));}
-record    {return(maketoken(RESERVED, RECORD));}
-repeat    {return(maketoken(RESERVED, REPEAT));}
-set       {return(maketoken(RESERVED, SET));}
-to        {return(maketoken(RESERVED, TO));}
-type      {return(maketoken(RESERVED, TYPE));}
-until     {return(maketoken(RESERVED, UNTIL));}
-var       {return(maketoken(RESERVED, VAR));}
-while     {return(maketoken(RESERVED, WHILE));}
-with      {return(maketoken(RESERVED, WITH));}
 
 "{"       { while (input() != '}'); }
 
@@ -155,6 +92,71 @@ with      {return(maketoken(RESERVED, WITH));}
                goto l1;
             }
           }
+
+{string}  {return(install_string());}
+
+if        {return(maketoken(RESERVED, IF));}
+then      {return(maketoken(RESERVED, THEN));}
+else      {return(maketoken(RESERVED, ELSE));}
+begin     {return(maketoken(RESERVED, BEGINBEGIN));}
+end       {return(maketoken(RESERVED, END));}
+array     {return(maketoken(RESERVED, ARRAY));}
+case      {return(maketoken(RESERVED, CASE));}
+const     {return(maketoken(RESERVED, CONST));}
+do        {return(maketoken(RESERVED, DO));}
+downto    {return(maketoken(RESERVED, DOWNTO));}
+file      {return(maketoken(RESERVED, FILEFILE));}
+for       {return(maketoken(RESERVED, FOR));}
+function  {return(maketoken(RESERVED, FUNCTION));}
+goto      {return(maketoken(RESERVED, GOTO));}
+label     {return(maketoken(RESERVED, LABEL));}
+nil       {return(maketoken(RESERVED, NIL));}
+of        {return(maketoken(RESERVED, OF));}
+packed    {return(maketoken(RESERVED, PACKED));}
+procedure {return(maketoken(RESERVED, PROCEDURE));}
+program   {return(maketoken(RESERVED, PROGRAM));}
+record    {return(maketoken(RESERVED, RECORD));}
+repeat    {return(maketoken(RESERVED, REPEAT));}
+set       {return(maketoken(RESERVED, SET));}
+to        {return(maketoken(RESERVED, TO));}
+type      {return(maketoken(RESERVED, TYPE));}
+until     {return(maketoken(RESERVED, UNTIL));}
+var       {return(maketoken(RESERVED, VAR));}
+while     {return(maketoken(RESERVED, WHILE));}
+with      {return(maketoken(RESERVED, WITH));}
+
+"<"       {return(maketoken(OPERATOR, LT));}
+"<="      {return(maketoken(OPERATOR, LE));}
+"="       {return(maketoken(OPERATOR, EQ));}
+"<>"      {return(maketoken(OPERATOR, NE));}
+">"       {return(maketoken(OPERATOR, GT));}
+">="      {return(maketoken(OPERATOR, GE));}
+":="      {return(maketoken(OPERATOR, ASSIGN));}
+"."       {return(maketoken(OPERATOR, DOT));}
+";"       {return(maketoken(DELIMITER, SEMICOLON));}
+"+"       {return(maketoken(OPERATOR, PLUS));}
+"-"       {return(maketoken(OPERATOR, MINUS));}
+"*"       {return(maketoken(OPERATOR, TIMES));}
+"/"       {return(maketoken(OPERATOR, DIVIDE));}
+"^"       {return(maketoken(OPERATOR, POINT));}
+and       {return(maketoken(OPERATOR, AND));}
+or        {return(maketoken(OPERATOR, OR));}
+not       {return(maketoken(OPERATOR, NOT));}
+div       {return(maketoken(OPERATOR, DIV));}
+mod       {return(maketoken(OPERATOR, MOD));}
+in        {return(maketoken(OPERATOR, IN));}
+
+","       {return(maketoken(DELIMITER, COMMA));}
+":"       {return(maketoken(DELIMITER, COLON));}
+"("       {return(maketoken(DELIMITER, LPAREN));}
+")"       {return(maketoken(DELIMITER, RPAREN));}
+"["       {return(maketoken(DELIMITER, LBRACKET));}
+"]"       {return(maketoken(DELIMITER, RBRACKET));}
+".."      {return(maketoken(DELIMITER, DOTDOT));}
+
+{id}      {return(install_id());}
+{inumber} {return(install_inum());}
+{fnumber} {return(install_fnum());}
 
 %%
 
