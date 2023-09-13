@@ -2293,9 +2293,7 @@ int install_inum() {
    while (i < n - 1 && size < 15) { /* until either char stream runs out (minus ending quote) or stringval hits max length */
       c = yytext[i];
 
-      if (i < n - 2 && c == '\'' && yytext[i + 1] == '\'') { /* double quote, skip first one */
-         i++;
-      } else {
+      if (!(i < n - 2 && c == '\'' && yytext[i + 1] == '\'')) { /* double quote, skip first one */
          /* Read in one char */
          yylval->stringval[size] = c;
          size++;
