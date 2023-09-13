@@ -1,67 +1,67 @@
 Started scanner test.
-tokentype:  3  value:   thisisanunusual
-tokentype:  1  which:    2            ;
-tokentype:  4  value:    What the #&*%!
-tokentype:  4  value:      Don't forget
-tokentype:  4  value:   Maximum of 15 c
-tokentype:  3  value:                 x
-tokentype:  0  which:    5           :=
-tokentype:  5  type:     0          123
-tokentype:  0  which:    1            +
-tokentype:  5  type:     0    123456789
-tokentype:  1  which:    2            ;
-tokentype:  3  value:                 u
-tokentype:  3  value:                 v
-tokentype:  3  value:                 w
-tokentype:  3  value:                 x
-tokentype:  3  value:                 y
-tokentype:  3  value:                 z
-tokentype:  5  type:     0   1234567890
-tokentype:  5  type:     0   2147483647
-tokentype:  0  which:    2            -
-tokentype:  5  type:     0            7
-tokentype:  1  which:    2            ;
-Integer number out of range
-tokentype:  5  type:     0   2147483647
-Integer number out of range
-tokentype:  5  type:     0   2147483647
-tokentype:  0  which:    2            -
-tokentype:  3  value:                 x
-tokentype:  1  which:    2            ;
-tokentype:  5  type:     1 1.000000e+03
-tokentype:  5  type:     1 1.000000e+09
-tokentype:  5  type:     1 2.000000e+09
-tokentype:  5  type:     1 3.000000e+09
-tokentype:  5  type:     1 1.000000e+10
-tokentype:  5  type:     1 3.140000e+00
-tokentype:  5  type:     0            1
-tokentype:  1  which:    8           ..
-tokentype:  5  type:     0           10
-tokentype:  5  type:     1 3.141590e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+06
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+00
-tokentype:  5  type:     1 3.141593e+23
-tokentype:  5  type:     1 3.141593e-30
-tokentype:  5  type:     1 3.141593e-37
-Floating number out of range
-tokentype:  5  type:     1 0.000000e+00
-tokentype:  5  type:     1 3.141593e+37
-Floating number out of range
-tokentype:  5  type:     1 0.000000e+00
-Floating number out of range
-tokentype:  5  type:     1 0.000000e+00
+yylex() =  258   tokentype:  3  value:   thisisanunusual
+yylex() =  281   tokentype:  1  which:    2            ;
+'yylex() =  258   tokentype:  3  value:              What
+yylex() =  258   tokentype:  3  value:               the
+#&yylex() =  263   tokentype:  0  which:    3            *
+%!'Don't forgetyylex() =  259   tokentype:  4  value:                  
+'yylex() =  258   tokentype:  3  value:           Maximum
+yylex() =  258   tokentype:  3  value:                of
+yylex() =  260   tokentype:  5  type:     1 1.500000e+01
+yylex() =  258   tokentype:  3  value:        characters
+'yylex() =  258   tokentype:  3  value:                 x
+yylex() =  265   tokentype:  0  which:    5           :=
+yylex() =  260   tokentype:  5  type:     1 1.230000e+02
+yylex() =  261   tokentype:  0  which:    1            +
+yylex() =  260   tokentype:  5  type:     1 1.234568e+08
+yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  258   tokentype:  3  value:                 u
+yylex() =  258   tokentype:  3  value:                 v
+yylex() =  258   tokentype:  3  value:                 w
+yylex() =  258   tokentype:  3  value:                 x
+yylex() =  258   tokentype:  3  value:                 y
+yylex() =  258   tokentype:  3  value:                 z
+yylex() =  260   tokentype:  5  type:     1 1.234568e+09
+yylex() =  260   tokentype:  5  type:     1 2.147484e+09
+yylex() =  262   tokentype:  0  which:    2            -
+yylex() =  260   tokentype:  5  type:     1 7.000000e+00
+yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  260   tokentype:  5  type:     1 2.147484e+09
+yylex() =  260   tokentype:  5  type:     1 1.000000e+17
+yylex() =  262   tokentype:  0  which:    2            -
+yylex() =  258   tokentype:  3  value:                 x
+yylex() =  281   tokentype:  1  which:    2            ;
+yylex() =  260   tokentype:  5  type:     1 1.000000e+03
+yylex() =  260   tokentype:  5  type:     1 1.000000e+09
+yylex() =  260   tokentype:  5  type:     1 2.000000e+09
+yylex() =  260   tokentype:  5  type:     1 3.000000e+09
+yylex() =  260   tokentype:  5  type:     1 1.000000e+10
+yylex() =  260   tokentype:  5  type:     1 3.140000e+00
+yylex() =  260   tokentype:  5  type:     1 1.000000e+00
+yylex() =  287   tokentype:  1  which:    8           ..
+yylex() =  260   tokentype:  5  type:     1 1.000000e+01
+yylex() =  260   tokentype:  5  type:     1 3.141590e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+06
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+00
+yylex() =  260   tokentype:  5  type:     1 3.141593e+23
+yylex() =  260   tokentype:  5  type:     1 3.141593e-30
+yylex() =  260   tokentype:  5  type:     1 3.141593e-37
+yylex() =  260   tokentype:  5  type:     1 3.141599e-40
+yylex() =  260   tokentype:  5  type:     1 3.141593e+37
+yylex() =  260   tokentype:  5  type:     1          inf
+yylex() =  260   tokentype:  5  type:     1          inf

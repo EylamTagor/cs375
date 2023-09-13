@@ -34,6 +34,7 @@
 
 /* Eylam Tagor
    et23634
+   09/12/2023
    */
 
 #include <ctype.h>
@@ -45,6 +46,9 @@ int maketoken(int type, int which);
 int install_id();
 int install_fnum();
 int yywrap();
+
+int install_inum(); // for unsigned ints
+int install_string(); // for strings
 
 /* If the lex yytext buffer turns out to be too small to hold comments,
    add the following lines:
@@ -66,7 +70,9 @@ letter   [A-Za-z]
 digit    [0-9]
 id       {letter}({letter}|{digit})*
 fnumber  {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
-/* TODO add for unsigned, strings, comments */
+
+inumber  {digit}+
+string   \'([^\']*\'\'[^\']*)*'
 
 %%
 
@@ -87,7 +93,68 @@ end       {return(maketoken(RESERVED, END));}
 ":="      {return(maketoken(OPERATOR, ASSIGN));}
 "."       {return(maketoken(OPERATOR, DOT));}
 ";"       {return(maketoken(DELIMITER, SEMICOLON));}
-/* TODO add for  */
+
+{inumber} {return(install_inum());}
+{string}  {return(install_string());}
+
+"+"       {return(maketoken(OPERATOR, PLUS));}
+"-"       {return(maketoken(OPERATOR, MINUS));}
+"*"       {return(maketoken(OPERATOR, TIMES));}
+"/"       {return(maketoken(OPERATOR, DIVIDE));}
+"^"       {return(maketoken(OPERATOR, POINT));}
+and       {return(maketoken(OPERATOR, AND));}
+or        {return(maketoken(OPERATOR, OR));}
+not       {return(maketoken(OPERATOR, NOT));}
+div       {return(maketoken(OPERATOR, DIV));}
+mod       {return(maketoken(OPERATOR, MOD));}
+in        {return(maketoken(OPERATOR, IN));}
+goto      {return(maketoken(RESERVED, GOTO));}
+label     {return(maketoken(RESERVED, LABEL));}
+program   {return(maketoken(RESERVED, PROGRAM));}
+
+","       {return(maketoken(DELIMITER, COMMA));}
+":"       {return(maketoken(DELIMITER, COLON));}
+"("       {return(maketoken(DELIMITER, LPAREN));}
+")"       {return(maketoken(DELIMITER, RPAREN));}
+"["       {return(maketoken(DELIMITER, LBRACKET));}
+"]"       {return(maketoken(DELIMITER, RBRACKET));}
+".."      {return(maketoken(DELIMITER, DOTDOT));}
+
+array     {return(maketoken(RESERVED, ARRAY));}
+case      {return(maketoken(RESERVED, CASE));}
+const     {return(maketoken(RESERVED, CONST));}
+do        {return(maketoken(RESERVED, DO));}
+downto    {return(maketoken(RESERVED, DOWNTO));}
+file      {return(maketoken(RESERVED, FILEFILE));}
+for       {return(maketoken(RESERVED, FOR));}
+function  {return(maketoken(RESERVED, FUNCTION));}
+nil       {return(maketoken(RESERVED, NIL));}
+of        {return(maketoken(RESERVED, OF));}
+packed    {return(maketoken(RESERVED, PACKED));}
+procedure {return(maketoken(RESERVED, PROCEDURE));}
+record    {return(maketoken(RESERVED, RECORD));}
+repeat    {return(maketoken(RESERVED, REPEAT));}
+set       {return(maketoken(RESERVED, SET));}
+to        {return(maketoken(RESERVED, TO));}
+type      {return(maketoken(RESERVED, TYPE));}
+until     {return(maketoken(RESERVED, UNTIL));}
+var       {return(maketoken(RESERVED, VAR));}
+while     {return(maketoken(RESERVED, WHILE));}
+with      {return(maketoken(RESERVED, WITH));}
+
+"{"       { while (input() != '}'); }
+
+"(*"      {
+            int c;
+
+            l1:
+            while ((c = input()) != '*');
+
+            if ((c = input()) != ')') {
+               unput(c);
+               goto l1;
+            }
+          }
 
 %%
 
@@ -136,6 +203,48 @@ int install_fnum() {  /* Note -- you may use sscanf for this assignment. */
   sscanf(yytext, "%f", &fnum);
   yylval->realval = fnum;
   return(NUMBER);
+ }
+
+int install_inum() {
+  unsigned int inum;
+  yylval = talloc();   /* Make new token, set yylval to point to it */
+  yylval->tokentype = NUMBERTOK;
+  yylval->basicdt = INTEGER;
+  sscanf(yytext, "%d", &inum); /* read in int with standard C library call */
+  yylval->intval = inum;
+  return(NUMBER);
+ }
+
+ int install_string()
+ {
+   int i, c, n;
+   int size = 0; /* Size of chars actually added to string */
+
+   yylval = talloc(); /* Make new token, set yylval to point to it */
+   yylval->tokentype = STRINGTOK;
+   yylval->basicdt = STRINGTYPE;
+   
+   n = yyleng; /* Number of characters */
+
+   i = 1; /* skip starting quote */
+   while (i < n - 1 && size < 15) { /* until either char stream runs out (minus ending quote) or stringval hits max length */
+      printf("%c", yytext[i]);
+      c = yytext[i];
+
+      if (i < n - 2 && c == '\'' && yytext[i + 1] == '\'') { /* double quote, skip first one */
+         i++;
+      } else {
+         /* Read in one char */
+         yylval->stringval[i] = c;
+         size++;
+      }
+
+      i++;
+   }
+
+   yylval->stringval[size] = '\0';
+
+   return (STRING);
  }
 
 int yywrap() {  return(1);  }       /* lex may need this. */
