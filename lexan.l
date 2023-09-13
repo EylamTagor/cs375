@@ -230,14 +230,13 @@ int install_inum() {
 
    i = 1; /* skip starting quote */
    while (i < n - 1 && size < 15) { /* until either char stream runs out (minus ending quote) or stringval hits max length */
-      printf("%c", yytext[i]);
       c = yytext[i];
 
       if (i < n - 2 && c == '\'' && yytext[i + 1] == '\'') { /* double quote, skip first one */
          i++;
       } else {
          /* Read in one char */
-         yylval->stringval[i] = c;
+         yylval->stringval[size] = c;
          size++;
       }
 
