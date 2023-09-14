@@ -72,7 +72,7 @@ id       {letter}({letter}|{digit})*
 fnumber  {digit}+(\.{digit}+)?([eE][+\-]?{digit}+)?
 
 inumber  {digit}+
-string   '(?:[^']|'')*'
+string   \'([^\']|\'\')+\'
 
 
 %%
