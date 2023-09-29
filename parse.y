@@ -87,14 +87,14 @@ TOKEN parseresult;
 
 %%
 
-program    :  PROGRAM IDENTIFIER LPAREN idlist SEMICOLON vblock DOT  /* changed this */       { parseresult = makeprogram($2, $4, $7); }
+program    :  PROGRAM IDENTIFIER LPAREN idlist RPAREN SEMICOLON vblock DOT { parseresult = makeprogram($2, $4, $7); }
              ;
   statement  :  BEGINBEGIN statement endpart
                                        { $$ = makeprogn($1,cons($2, $3)); }
              |  IF expr THEN statement endif   { $$ = makeif($1, $2, $4, $5); }
              |  assignment
              |  FOR assignment TO expr DO statement { $$ = makefor(1, $1, $2, $3, $4, $5, $6); }
-             |funcall
+             |  funcall
              ;
   endpart    :  SEMICOLON statement endpart    { $$ = cons($2, $3); }
              |  END                            { $$ = NULL; }
@@ -113,6 +113,7 @@ program    :  PROGRAM IDENTIFIER LPAREN idlist SEMICOLON vblock DOT  /* changed 
   factor     :  LPAREN expr RPAREN             { $$ = $2; }
              |  variable
              |  NUMBER
+             |  STRING
              ;
   variable   : IDENTIFIER
              ;
@@ -143,6 +144,7 @@ program    :  PROGRAM IDENTIFIER LPAREN idlist SEMICOLON vblock DOT  /* changed 
 
   expr_list: expr COMMA expr_list { $$ = cons($1, $3); }
            | expr
+           ;
 
 %%
 
@@ -227,25 +229,9 @@ void yyerror (char const *s)
   fprintf (stderr, "%s\n", s);
 }
 
-int main(void)          /*  */
-  { int res;
-    initsyms();
-    res = yyparse();
-    printst();       /* to shorten, change to:  printstlevel(1);  */
-    printf("yyparse result = %8d\n", res);
-    if (DEBUG & DB_PARSERES) dbugprinttok(parseresult);
-    ppexpr(parseresult);           /* Pretty-print the result tree */
-    /* uncomment following to call code generator. */
-     /* 
-    gencode(parseresult, blockoffs[blocknumber], labelnumber);
- */
-  }
-
 /* makes tree for top-level prog */
 TOKEN makeprogram(TOKEN name, TOKEN args, TOKEN statements) {
-  TOKEN tok = talloc();
-  tok->tokentype = OPERATOR;
-  tok->whichval = PROGRAMOP;
+  TOKEN tok = makeop(PROGRAMOP);
   tok->operands = name;
 
   TOKEN progtok = makeprogn(talloc(), args);
@@ -358,6 +344,24 @@ TOKEN makegoto(int label) {
   return tok;
 }
 
+TOKEN makenum(int number) {
+  TOKEN tok = talloc();
+  tok->intval = number;
+  tok->basicdt = INTEGER;
+  tok->tokentype = NUMBERTOK;
+
+  return copytok(tok);
+}
+
+TOKEN makelabel() {
+  TOKEN tok = talloc();
+  tok->operands = makenum(labelnumber++);
+  tok->whichval = LABELOP;
+  tok->tokentype = OPERATOR;
+
+  return copytok(tok);
+}
+
 /* makes structures for the for statement in Pascal
     assignment: assignment statement such as := i 1  */
 TOKEN makefor(int sign, TOKEN tok, TOKEN asg, TOKEN tokb, TOKEN endexpr,
@@ -424,3 +428,17 @@ TOKEN makefuncall(TOKEN tok, TOKEN fn, TOKEN args) {
 
   return tok;
 }
+
+int main(void)          /*  */
+  { int res;
+    initsyms();
+    res = yyparse();
+    printst();       /* to shorten, change to:  printstlevel(1);  */
+    printf("yyparse result = %8d\n", res);
+    if (DEBUG & DB_PARSERES) dbugprinttok(parseresult);
+    ppexpr(parseresult);           /* Pretty-print the result tree */
+    /* uncomment following to call code generator. */
+     /* 
+    gencode(parseresult, blockoffs[blocknumber], labelnumber);
+ */
+  }
