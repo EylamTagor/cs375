@@ -359,7 +359,7 @@ TOKEN makelabel() {
   tok->whichval = LABELOP;
   tok->tokentype = OPERATOR;
 
-  return copytok(tok);
+  return tok;
 }
 
 /* makes structures for the for statement in Pascal

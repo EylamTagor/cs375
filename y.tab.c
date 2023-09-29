@@ -2095,7 +2095,7 @@ TOKEN makelabel() {
   tok->whichval = LABELOP;
   tok->tokentype = OPERATOR;
 
-  return copytok(tok);
+  return tok;
 }
 
 /* makes structures for the for statement in Pascal
@@ -2145,57 +2145,6 @@ TOKEN makefor(int sign, TOKEN tok, TOKEN asg, TOKEN tokb, TOKEN endexpr,
 
   label->link = ifs;
   return tok;
-
-  // // make label
-  // TOKEN tok_label = makeop(LABELOP);
-  // int current_labelnum = labelnumber;
-  // TOKEN label_tok = talloc();
-	// fillintc(label_tok, labelnumber);
-	// TOKEN labelnum = label_tok;
-	// labelnumber = current_labelnum + 1;
-  // tok_label->operands = labelnum;
-  // labelnum->link = NULL;
-
-  // TOKEN tok_assign = makeop(ASSIGNOP);
-  // TOKEN tok_incr = makeop(PLUSOP);
-  // TOKEN tok_decr = makeop(MINUSOP); // for downto loops
-
-  // tok_assign->link = makegoto(current_labelnum);
-
-  // // loop body & condition
-  // TOKEN tok_less_eq_op = makeop(LEOP);
-  // TOKEN tok_inside_statements = makeprogn(talloc(), statement);
-  // TOKEN ifs = makeif(talloc(), tok_less_eq_op, tok_inside_statements, NULL);
-
-  // TOKEN tok_ids[3];
-
-  // for (int i = 0; i < 3; i++) {
-  //   tok_ids[i] = copytok(asg->operands);
-  // }
-
-  // tok_less_eq_op->operands = tok_ids[0];
-
-  // // match tokens with right positions to set up condition
-  // tok_ids[0]->link = endexpr;
-
-  // tok_ids[1]->link = tok_incr;
-  // tok_assign->operands = tok_ids[1];
-
-  // tok_ids[2]->link = fillintc(talloc(), 1);
-  // tok_incr->operands = tok_ids[2];
-
-  // statement->link = tok_assign;
-  // tok_less_eq_op->link = tok_inside_statements;
-  // tok_label->link = ifs;
-
-  // if (DEBUG & DB_MAKEFOR)
-  //      { printf("cons\n");
-  //        dbugprinttok(tok);
-  //        dbugprinttok(asg);
-  //        dbugprinttok(statement);
-  //      };
-
-  // return tok;
 }
 
 /* makefuncall makes a FUNCALL operator and links it to the fn and args.
