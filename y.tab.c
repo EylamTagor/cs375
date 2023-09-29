@@ -2103,55 +2103,99 @@ TOKEN makelabel() {
 TOKEN makefor(int sign, TOKEN tok, TOKEN asg, TOKEN tokb, TOKEN endexpr,
               TOKEN tokc, TOKEN statement) {
   // make label
-  TOKEN tok_label = makeop(LABELOP);
-  int current_labelnum = labelnumber;
-  TOKEN label_tok = talloc();
-	fillintc(label_tok, labelnumber);
-	TOKEN labelnum = label_tok;
-	labelnumber = current_labelnum + 1;
-  tok_label->operands = labelnum;
-  labelnum->link = NULL;
+  TOKEN label = makelabel();
+  asg->link = label;
 
-  TOKEN tok_assign = makeop(ASSIGNOP);
+  TOKEN tok_body = makeprogn(talloc(), statement);
+  
+  TOKEN tok_leop = makeop(LEOP);
   TOKEN tok_incr = makeop(PLUSOP);
-  TOKEN tok_decr = makeop(MINUSOP); // for downto loops
+  TOKEN tok_assign = makeop(ASSIGNOP);
 
-  tok_assign->link = makegoto(current_labelnum);
+  TOKEN ifs = makeif(talloc(), tok_leop, tok_body, NULL);
 
-  // loop body & condition
-  TOKEN tok_less_eq_op = makeop(LEOP);
-  TOKEN tok_inside_statements = makeprogn(talloc(), statement);
-  TOKEN ifs = makeif(talloc(), tok_less_eq_op, tok_inside_statements, NULL);
-
-  TOKEN tok_ids[3];
+  TOKEN identifiers[3];
 
   for (int i = 0; i < 3; i++) {
-    tok_ids[i] = copytok(asg->operands);
+    identifiers[i] = talloc();
+    identifiers[i] = copytok(asg->operands);
   }
 
-  tok_less_eq_op->operands = tok_ids[0];
+  tok = makeprogn(tok, asg);
 
-  // match tokens with right positions to set up condition
-  tok_ids[0]->link = endexpr;
+  identifiers[0]->link = endexpr;
+  tok_leop->operands = identifiers[0];
 
-  tok_ids[1]->link = tok_incr;
-  tok_assign->operands = tok_ids[1];
+  tok_leop->link = tok_body;
 
-  tok_ids[2]->link = fillintc(talloc(), 1);
-  tok_incr->operands = tok_ids[2];
+  identifiers[2]->link = makenum(1);
+  tok_incr->operands = identifiers[2];
 
+  identifiers[1]->link = tok_incr;
+  tok_assign->operands = identifiers[1];
+
+  // goto
+  TOKEN tok_goto = makegoto(labelnumber - 1);
+  tok_assign->link = tok_goto;
+
+  // connect final links of tree
   statement->link = tok_assign;
-  tok_less_eq_op->link = tok_inside_statements;
-  tok_label->link = ifs;
 
-  if (DEBUG & DB_MAKEFOR)
-       { printf("cons\n");
-         dbugprinttok(tok);
-         dbugprinttok(asg);
-         dbugprinttok(statement);
-       };
+  ifs->operands = tok_leop;
 
+  label->link = ifs;
   return tok;
+
+  // // make label
+  // TOKEN tok_label = makeop(LABELOP);
+  // int current_labelnum = labelnumber;
+  // TOKEN label_tok = talloc();
+	// fillintc(label_tok, labelnumber);
+	// TOKEN labelnum = label_tok;
+	// labelnumber = current_labelnum + 1;
+  // tok_label->operands = labelnum;
+  // labelnum->link = NULL;
+
+  // TOKEN tok_assign = makeop(ASSIGNOP);
+  // TOKEN tok_incr = makeop(PLUSOP);
+  // TOKEN tok_decr = makeop(MINUSOP); // for downto loops
+
+  // tok_assign->link = makegoto(current_labelnum);
+
+  // // loop body & condition
+  // TOKEN tok_less_eq_op = makeop(LEOP);
+  // TOKEN tok_inside_statements = makeprogn(talloc(), statement);
+  // TOKEN ifs = makeif(talloc(), tok_less_eq_op, tok_inside_statements, NULL);
+
+  // TOKEN tok_ids[3];
+
+  // for (int i = 0; i < 3; i++) {
+  //   tok_ids[i] = copytok(asg->operands);
+  // }
+
+  // tok_less_eq_op->operands = tok_ids[0];
+
+  // // match tokens with right positions to set up condition
+  // tok_ids[0]->link = endexpr;
+
+  // tok_ids[1]->link = tok_incr;
+  // tok_assign->operands = tok_ids[1];
+
+  // tok_ids[2]->link = fillintc(talloc(), 1);
+  // tok_incr->operands = tok_ids[2];
+
+  // statement->link = tok_assign;
+  // tok_less_eq_op->link = tok_inside_statements;
+  // tok_label->link = ifs;
+
+  // if (DEBUG & DB_MAKEFOR)
+  //      { printf("cons\n");
+  //        dbugprinttok(tok);
+  //        dbugprinttok(asg);
+  //        dbugprinttok(statement);
+  //      };
+
+  // return tok;
 }
 
 /* makefuncall makes a FUNCALL operator and links it to the fn and args.
