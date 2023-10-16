@@ -1,0 +1,103 @@
+Symbol table level 0
+ 94081126494880        real  BASIC  basicdt   1          siz     8
+ 94081126494976     integer  BASIC  basicdt   0          siz     4
+ 94081126495072        char  BASIC  basicdt   2          siz     1
+ 94081126495168     boolean  BASIC  basicdt   3          siz     4
+ 94081126495264         exp  knd 5 0  typ 94081126495360  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94081126495552       trexp  knd 5 0  typ 94081126495648  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94081126495840         sin  knd 5 0  typ 94081126495936  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94081126496128         cos  knd 5 0  typ 94081126496224  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94081126496416       trsin  knd 5 0  typ 94081126496512  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94081126496704        sqrt  knd 5 0  typ 94081126496800  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94081126496992       round  knd 5 0  typ 94081126497088  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94081126497280      iround  knd 5 0  typ 94081126497376  lvl  0  siz     0  off     0
+(FUNCTION integer
+          real)
+ 94081126497568         ord  knd 5 0  typ 94081126497664  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94081126497856         new  knd 5 0  typ 94081126497952  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94081126498144       trnew  knd 5 0  typ 94081126498240  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94081126498432       write  knd 5 0  typ 94081126498528  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94081126498720     writeln  knd 5 0  typ 94081126498816  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94081126499008      writef  knd 5 0  typ 94081126499104  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94081126499296    writelnf  knd 5 0  typ 94081126499392  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94081126499584      writei  knd 5 0  typ 94081126499680  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94081126499872    writelni  knd 5 0  typ 94081126499968  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94081126500160        read  knd 5 0  typ 94081126500256  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94081126500448      readln  knd 5 0  typ 94081126500544  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94081126500736         eof  knd 5 0  typ 94081126500832  lvl  0  siz     0  off     0
+(FUNCTION boolean
+          NULL)
+Symbol table level 1
+ 94081126527536         lim  CONST  typ INTEGER  val  32
+ 94081126527632           c  CONST  typ    REAL  val  6.283180e+00
+ 94081126527728           h  CONST  typ INTEGER  val  34
+ 94081126527824           s  CONST  typ INTEGER  val  32
+ 94081126527920           d  CONST  typ    REAL  val  6.250000e-02
+ 94081126528336           x  VAR    1 typ    real  lvl  1  siz     8  off     0
+ 94081126528432           y  VAR    1 typ    real  lvl  1  siz     8  off     8
+ 94081126528912           i  VAR    0 typ integer  lvl  1  siz     4  off    16
+ 94081126529008           n  VAR    0 typ integer  lvl  1  siz     4  off    20
+yyparse result =        0
+(program graph1 (progn output)
+                (progn (progn (:= i 0)
+                              (label 1)
+                              (if (<= i lim)
+                                  (progn (progn (:= x (* d i))
+                                                (:= y (* (funcall exp
+                                                                  (- x))
+                                                         (funcall sin
+                                                                  (* c
+                                                                     x))))
+                                                (:= n (+ (funcall round
+                                                                  (* s
+                                                                     y))
+                                                         h))
+                                                (progn (label 0)
+                                                       (progn (funcall write
+                                                                       ' ')
+                                                              (:= n
+                                                                  (- n
+                                                                     1)))
+                                                       (if (= n
+                                                              0)
+                                                           (progn)
+                                                           (goto 0)))
+                                                (funcall writeln '*'))
+                                         (:= i (+ i 1))
+                                         (goto 1))))))
