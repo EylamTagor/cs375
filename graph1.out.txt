@@ -1,94 +1,93 @@
 Symbol table level 0
- 94723893011104        real  BASIC  basicdt   1          siz     8
- 94723893011200     integer  BASIC  basicdt   0          siz     4
- 94723893011296        char  BASIC  basicdt   2          siz     1
- 94723893011392     boolean  BASIC  basicdt   3          siz     4
- 94723893011488         exp  knd 5 0  typ 94723893011584  lvl  0  siz     0  off     0
+ 94816790778528        real  BASIC  basicdt   1          siz     8
+ 94816790778624     integer  BASIC  basicdt   0          siz     4
+ 94816790778720        char  BASIC  basicdt   2          siz     1
+ 94816790778816     boolean  BASIC  basicdt   3          siz     4
+ 94816790778912         exp  knd 5 0  typ 94816790779008  lvl  0  siz     0  off     0
 (FUNCTION real
           real)
- 94723893011776       trexp  knd 5 0  typ 94723893011872  lvl  0  siz     0  off     0
+ 94816790779200       trexp  knd 5 0  typ 94816790779296  lvl  0  siz     0  off     0
 (FUNCTION real
           real)
- 94723893012064         sin  knd 5 0  typ 94723893012160  lvl  0  siz     0  off     0
+ 94816790779488         sin  knd 5 0  typ 94816790779584  lvl  0  siz     0  off     0
 (FUNCTION real
           real)
- 94723893012352         cos  knd 5 0  typ 94723893012448  lvl  0  siz     0  off     0
+ 94816790779776         cos  knd 5 0  typ 94816790779872  lvl  0  siz     0  off     0
 (FUNCTION real
           real)
- 94723893012640       trsin  knd 5 0  typ 94723893012736  lvl  0  siz     0  off     0
+ 94816790780064       trsin  knd 5 0  typ 94816790780160  lvl  0  siz     0  off     0
 (FUNCTION real
           real)
- 94723893012928        sqrt  knd 5 0  typ 94723893013024  lvl  0  siz     0  off     0
+ 94816790780352        sqrt  knd 5 0  typ 94816790780448  lvl  0  siz     0  off     0
 (FUNCTION real
           real)
- 94723893013216       round  knd 5 0  typ 94723893013312  lvl  0  siz     0  off     0
+ 94816790780640       round  knd 5 0  typ 94816790780736  lvl  0  siz     0  off     0
 (FUNCTION real
           real)
- 94723893013504      iround  knd 5 0  typ 94723893013600  lvl  0  siz     0  off     0
+ 94816790780928      iround  knd 5 0  typ 94816790781024  lvl  0  siz     0  off     0
 (FUNCTION integer
           real)
- 94723893013792         ord  knd 5 0  typ 94723893013888  lvl  0  siz     0  off     0
-(FUNCTION integer
-          integer)
- 94723893014080         new  knd 5 0  typ 94723893014176  lvl  0  siz     0  off     0
+ 94816790781216         ord  knd 5 0  typ 94816790781312  lvl  0  siz     0  off     0
 (FUNCTION integer
           integer)
- 94723893014368       trnew  knd 5 0  typ 94723893014464  lvl  0  siz     0  off     0
+ 94816790781504         new  knd 5 0  typ 94816790781600  lvl  0  siz     0  off     0
 (FUNCTION integer
           integer)
- 94723893014656       write  knd 5 0  typ 94723893014752  lvl  0  siz     0  off     0
+ 94816790781792       trnew  knd 5 0  typ 94816790781888  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94816790782080       write  knd 5 0  typ 94816790782176  lvl  0  siz     0  off     0
 (FUNCTION NULL
           char)
- 94723893014944     writeln  knd 5 0  typ 94723893015040  lvl  0  siz     0  off     0
+ 94816790782368     writeln  knd 5 0  typ 94816790782464  lvl  0  siz     0  off     0
 (FUNCTION NULL
           char)
- 94723893015232      writef  knd 5 0  typ 94723893015328  lvl  0  siz     0  off     0
+ 94816790782656      writef  knd 5 0  typ 94816790782752  lvl  0  siz     0  off     0
 (FUNCTION NULL
           real)
- 94723893015520    writelnf  knd 5 0  typ 94723893015616  lvl  0  siz     0  off     0
+ 94816790782944    writelnf  knd 5 0  typ 94816790783040  lvl  0  siz     0  off     0
 (FUNCTION NULL
           real)
- 94723893015808      writei  knd 5 0  typ 94723893015904  lvl  0  siz     0  off     0
+ 94816790783232      writei  knd 5 0  typ 94816790783328  lvl  0  siz     0  off     0
 (FUNCTION NULL
           integer)
- 94723893016096    writelni  knd 5 0  typ 94723893016192  lvl  0  siz     0  off     0
+ 94816790783520    writelni  knd 5 0  typ 94816790783616  lvl  0  siz     0  off     0
 (FUNCTION NULL
           integer)
- 94723893016384        read  knd 5 0  typ 94723893016480  lvl  0  siz     0  off     0
+ 94816790783808        read  knd 5 0  typ 94816790783904  lvl  0  siz     0  off     0
 (FUNCTION NULL
           NULL)
- 94723893016672      readln  knd 5 0  typ 94723893016768  lvl  0  siz     0  off     0
+ 94816790784096      readln  knd 5 0  typ 94816790784192  lvl  0  siz     0  off     0
 (FUNCTION NULL
           NULL)
- 94723893016960         eof  knd 5 0  typ 94723893017056  lvl  0  siz     0  off     0
+ 94816790784384         eof  knd 5 0  typ 94816790784480  lvl  0  siz     0  off     0
 (FUNCTION boolean
           NULL)
 Symbol table level 1
- 94723893042608           d  CONST  typ    REAL  val  6.250000e-02
- 94723893042960           s  CONST  typ INTEGER  val  32
- 94723893043312           h  CONST  typ INTEGER  val  34
- 94723893043664           c  CONST  typ    REAL  val  6.283180e+00
- 94723893044016         lim  CONST  typ INTEGER  val  32
- 94723893044560           x  VAR    1 typ    real  lvl  1  siz     8  off     0
- 94723893044656           y  VAR    1 typ    real  lvl  1  siz     8  off     8
- 94723893045136           i  VAR    0 typ integer  lvl  1  siz     4  off    16
- 94723893045232           n  VAR    0 typ integer  lvl  1  siz     4  off    20
+ 94816790811184         lim  CONST  typ INTEGER  val  32
+ 94816790811280           c  CONST  typ    REAL  val  6.283180e+00
+ 94816790811376           h  CONST  typ INTEGER  val  34
+ 94816790811472           s  CONST  typ INTEGER  val  32
+ 94816790811568           d  CONST  typ    REAL  val  6.250000e-02
+ 94816790811984           x  VAR    1 typ    real  lvl  1  siz     8  off     0
+ 94816790812080           y  VAR    1 typ    real  lvl  1  siz     8  off     8
+ 94816790812560           i  VAR    0 typ integer  lvl  1  siz     4  off    16
+ 94816790812656           n  VAR    0 typ integer  lvl  1  siz     4  off    20
 yyparse result =        0
 (program graph1 (progn output)
                 (progn (progn (:= i 0)
                               (label 1)
-                              (if (<= i 32)
-                                  (progn (progn (:= x (* 6.250000e-02
-                                                         (float i)))
-                                                (:= y (float (* (funcall exp
-                                                                         (- x))
-                                                                (funcall sin
-                                                                         (* 6.283180e+00
-                                                                            x)))))
+                              (if (<= i lim)
+                                  (progn (progn (:= x (* d i))
+                                                (:= y (* (funcall exp
+                                                                  (- x))
+                                                         (funcall sin
+                                                                  (* c
+                                                                     x))))
                                                 (:= n (+ (funcall round
-                                                                  (* 3.200000e+01
+                                                                  (* s
                                                                      y))
-                                                         34))
+                                                         h))
                                                 (progn (label 0)
                                                        (progn (funcall write
                                                                        ' ')

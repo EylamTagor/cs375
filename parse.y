@@ -87,111 +87,106 @@ TOKEN parseresult;
 
 %%
 
-program    : PROGRAM IDENTIFIER LPAREN idlist RPAREN SEMICOLON cblock DOT { parseresult = makeprogram($2, $4, $7); } ;
+program    :  PROGRAM IDENTIFIER LPAREN idlist RPAREN SEMICOLON cblock DOT { parseresult = makeprogram($2, $4, $7); }
              ;
-  u_constant :  NUMBER
-             |  NIL 
-             |  STRING
-             ;
-  sign       :  PLUS 
-             |  MINUS
-             ;
-  constant   :  sign IDENTIFIER     { $$ = unaryop($1, $2); }
-             |  IDENTIFIER
-             |  sign NUMBER         { $$ = unaryop($1, $2); }
-             |  NUMBER
-             |  STRING
-             ;
-  idlist     :  IDENTIFIER COMMA idlist { $$ = cons($1, $3); }
-             |  IDENTIFIER    { $$ = cons($1, NULL); }
-             ;
-  cdef       :  IDENTIFIER EQ constant { instconst($1, $3); }
-             ;
-  clist      :  cdef SEMICOLON clist    
-             |  cdef SEMICOLON          
-             ;  
-  tlist      :  IDENTIFIER EQ TYPE tlist
-             |  IDENTIFIER EQ TYPE
-             ;
-  s_list     :  statement SEMICOLON s_list      { $$ = cons($1, $3); }
-             |  statement
-             ;
-  cblock     :  CONST clist tblock              { $$ = $3; }
-             |  tblock
-             ;
-  tblock     :  TYPE tlist vblock       { $$ = $3; }
-             |  vblock
-             ;
-  vblock     :  VAR varspecs block       { $$ = $3; }
-             |  block
-             ;
-  varspecs   :  vargroup SEMICOLON varspecs   
-             |  vargroup SEMICOLON            
-             ;
-  vargroup   :  idlist COLON type { instvars($1, $3); }
-             ;
-  type       :  simpletype
-             ;
-  simpletype :  IDENTIFIER   { $$ = findtype($1); }
-             ;
-  block      :  BEGINBEGIN statement endpart   { $$ = makeprogn($1,cons($2, $3)); }  
-             ;
-  statement  :  BEGINBEGIN statement endpart   { $$ = makeprogn($1,cons($2, $3)); }
+  statement  :  BEGINBEGIN statement endpart
+                                       { $$ = makeprogn($1,cons($2, $3)); }
              |  IF expr THEN statement endif   { $$ = makeif($1, $2, $4, $5); }
              |  assignment
+             |  FOR assignment TO expr DO statement { $$ = makefor(1, $1, $2, $3, $4, $5, $6); }
              |  funcall
-             |  FOR assignment TO expr DO statement   { $$ = makefor(1, $1, $2, $3, $4, $5, $6); }
-             |  REPEAT s_list UNTIL expr              { $$ = makerepeat($1, $2, $3, $4); }
-             ;
-  funcall    :  IDENTIFIER LPAREN expr_list RPAREN    { $$ = makefuncall($2, $1, $3); }
-             ;
-  expr_list  :  expr COMMA expr_list           { $$ = cons($1, $3); }
-             |  expr
+             | REPEAT stlist UNTIL expr { $$ = makerepeat($1, $2, $3, $4); }
              ;
   endpart    :  SEMICOLON statement endpart    { $$ = cons($2, $3); }
              |  END                            { $$ = NULL; }
              ;
   endif      :  ELSE statement                 { $$ = $2; }
-             |  /* empty */                    { $$ = NULL; }
+             |  /* empty */                    { $$ = NULL; }  %prec thenthen
              ;
-  assignment :  variable ASSIGN expr         { $$ = binop($2, $1, $3); }
+  assignment :  variable ASSIGN expr           { $$ = binop($2, $1, $3); }
              ;
-  variable   :  IDENTIFIER                            { $$ = findid($1); }
+  expr       :  expr EQ simpleexpr {$$ = binop($2, $1, $3); }
+             |  expr NE simpleexpr {$$ = binop($2, $1, $3); }
+             |  expr GT simpleexpr {$$ = binop($2, $1, $3); }
+             |  expr LT simpleexpr {$$ = binop($2, $1, $3); }
+             |  expr GE simpleexpr {$$ = binop($2, $1, $3); }
+             |  expr LE simpleexpr {$$ = binop($2, $1, $3); }
+             |  expr IN simpleexpr {$$ = binop($2, $1, $3); }
+             |  simpleexpr
              ;
-  plus_op    :  PLUS 
-             |  MINUS  
-             |  OR
-             ;
-  compare_op :  EQ 
-             |  LT 
-             |  GT 
-             |  NE 
-             |  LE 
-             |  GE 
-             |  IN
-             ;
-  times_op   :  TIMES 
-             |  DIVIDE 
-             |  DIV 
-             |  MOD 
-             |  AND
-             ;
-  s_expr     :  sign term                       { $$ = unaryop($1, $2); }
-             |  term 
-             |  s_expr plus_op term                 { $$ = binop($2, $1, $3); }
-             ;
-  expr       :  expr compare_op s_expr              { $$ = binop($2, $1, $3); }
-             |  s_expr 
-             ;
-  term       :  term times_op factor              { $$ = binop($2, $1, $3); }
+  term       :  term TIMES factor              { $$ = binop($2, $1, $3); }
+             |  term DIVIDE factor { $$ = binop($2, $1, $3); }
+             |  term DIV factor { $$ = binop($2, $1, $3); }
+             |  term MOD factor { $$ = binop($2, $1, $3); }
+             |  term AND factor { $$ = binop($2, $1, $3); }
              |  factor
              ;
-  factor     :  u_constant
+  factor     :  LPAREN expr RPAREN             { $$ = $2; }
              |  variable
-             |  LPAREN expr RPAREN             { $$ = $2; }       
+             |  NUMBER
+             |  STRING
+             |  NIL
+             |  NOT factor { $$ = unaryop($1, $2); }
              |  funcall
-             |  NOT factor          { $$ = unaryop($1, $2); }
              ;
+  variable   : IDENTIFIER
+             ;
+
+  idlist   :  IDENTIFIER COMMA idlist
+                          { $$ = cons($1, $3); }
+         |  IDENTIFIER    { $$ = cons($1, NULL); }
+         ;
+  vblock   :  VAR varspecs block       { $$ = $3; }
+          |  block
+          ;
+  varspecs :  vargroup SEMICOLON varspecs
+          |  vargroup SEMICOLON
+          ;
+  vargroup :  idlist COLON type
+                              { instvars($1, $3); }
+          ;
+  type     :  simpletype
+          |  ;
+  simpletype :  IDENTIFIER   { $$ = findtype($1); }
+            ;  /* $1->symtype returns type */
+
+  block    : BEGINBEGIN statement endpart
+              { $$ = makeprogn($1,cons($2, $3)); }
+  
+  funcall  : IDENTIFIER LPAREN expr_list RPAREN { $$ = makefuncall($2, $1, $3); }
+          ;
+
+  expr_list: expr COMMA expr_list { $$ = cons($1, $3); }
+           | expr
+           ;
+
+  cblock   : CONST constspecs tblock { $$ = $3; }
+           | tblock
+           ;
+
+  tblock   : TYPE typespecs vblock { $$ = $3; }
+           | vblock
+           ;
+
+  constspecs: IDENTIFIER EQ NUMBER SEMICOLON constspecs { instconst($1, $3); }
+            | IDENTIFIER EQ NUMBER SEMICOLON { instconst($1, $3); }
+            ;
+
+  typespecs : IDENTIFIER EQ TYPE typespecs
+            | IDENTIFIER EQ TYPE
+            ;
+
+  stlist    : statement SEMICOLON stlist { $$ = cons($1, $3); }
+            | statement { $$ = $1; }
+            ;
+
+  simpleexpr: term
+            | PLUS term { $$ = unaryop($1, $2); }
+            | MINUS term { $$ = unaryop($1, $2); }
+            | simpleexpr PLUS term { $$ = binop($2, $1, $3); }
+            | simpleexpr MINUS term { $$ = binop($2, $1, $3); }
+            | simpleexpr OR term { $$ = binop($2, $1, $3); }
+            ;
 %%
 
 /* You should add your own debugging flags below, and add debugging
