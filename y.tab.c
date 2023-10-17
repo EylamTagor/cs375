@@ -2420,10 +2420,28 @@ TOKEN makefor(int sign, TOKEN tok, TOKEN asg, TOKEN tokb, TOKEN endexpr,
 /* makefuncall makes a FUNCALL operator and links it to the fn and args.
    tok is a (now) unused token that is recycled. */
 TOKEN makefuncall(TOKEN tok, TOKEN fn, TOKEN args) {
-  tok = makeop(FUNCALLOP);
-  tok->operands = fn;
+  // tok = makeop(FUNCALLOP);
+  // tok->operands = fn;
 
-  fn->link = args;
+  // fn->link = args;
+
+  if (strcmp(fn->stringval, "new") == 0) {
+    tok = makeop(ASSIGNOP);
+    tok->operands = args;
+
+    TOKEN funcall = makeop(FUNCALLOP);
+    funcall->operands = fn;
+    args->link = funcall;
+
+    fn->link = makeintc(searchst(args->stringval)->datatype->datatype->datatype->size);
+  } else {
+    tok = makeop(FUNCALLOP);
+    tok->operands = fn;
+
+
+    tok->basicdt = searchst(fn->stringval)->datatype->basicdt;
+    fn->link = args;
+  }
 
   return tok;
 }
