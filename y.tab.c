@@ -1722,122 +1722,128 @@ yyreduce:
 #line 1723 "y.tab.c"
     break;
 
+  case 35:
+#line 132 "parse.y"
+                          { yyval = findid(yyvsp[0]); }
+#line 1729 "y.tab.c"
+    break;
+
   case 36:
 #line 136 "parse.y"
                           { yyval = cons(yyvsp[-2], yyvsp[0]); }
-#line 1729 "y.tab.c"
+#line 1735 "y.tab.c"
     break;
 
   case 37:
 #line 137 "parse.y"
                           { yyval = cons(yyvsp[0], NULL); }
-#line 1735 "y.tab.c"
+#line 1741 "y.tab.c"
     break;
 
   case 38:
 #line 139 "parse.y"
                                        { yyval = yyvsp[0]; }
-#line 1741 "y.tab.c"
+#line 1747 "y.tab.c"
     break;
 
   case 42:
 #line 146 "parse.y"
                               { instvars(yyvsp[-2], yyvsp[0]); }
-#line 1747 "y.tab.c"
+#line 1753 "y.tab.c"
     break;
 
   case 45:
 #line 150 "parse.y"
                              { yyval = findtype(yyvsp[0]); }
-#line 1753 "y.tab.c"
+#line 1759 "y.tab.c"
     break;
 
   case 46:
 #line 154 "parse.y"
               { yyval = makeprogn(yyvsp[-2],cons(yyvsp[-1], yyvsp[0])); }
-#line 1759 "y.tab.c"
+#line 1765 "y.tab.c"
     break;
 
   case 47:
 #line 156 "parse.y"
                                                 { yyval = makefuncall(yyvsp[-2], yyvsp[-3], yyvsp[-1]); }
-#line 1765 "y.tab.c"
+#line 1771 "y.tab.c"
     break;
 
   case 48:
 #line 159 "parse.y"
                                   { yyval = cons(yyvsp[-2], yyvsp[0]); }
-#line 1771 "y.tab.c"
+#line 1777 "y.tab.c"
     break;
 
   case 50:
 #line 163 "parse.y"
                                      { yyval = yyvsp[0]; }
-#line 1777 "y.tab.c"
+#line 1783 "y.tab.c"
     break;
 
   case 52:
 #line 167 "parse.y"
                                    { yyval = yyvsp[0]; }
-#line 1783 "y.tab.c"
+#line 1789 "y.tab.c"
     break;
 
   case 54:
 #line 171 "parse.y"
                                                         { instconst(yyvsp[-4], yyvsp[-2]); }
-#line 1789 "y.tab.c"
+#line 1795 "y.tab.c"
     break;
 
   case 55:
 #line 172 "parse.y"
                                              { instconst(yyvsp[-3], yyvsp[-1]); }
-#line 1795 "y.tab.c"
+#line 1801 "y.tab.c"
     break;
 
   case 58:
 #line 179 "parse.y"
                                          { yyval = cons(yyvsp[-2], yyvsp[0]); }
-#line 1801 "y.tab.c"
+#line 1807 "y.tab.c"
     break;
 
   case 59:
 #line 180 "parse.y"
                         { yyval = yyvsp[0]; }
-#line 1807 "y.tab.c"
+#line 1813 "y.tab.c"
     break;
 
   case 61:
 #line 184 "parse.y"
                         { yyval = unaryop(yyvsp[-1], yyvsp[0]); }
-#line 1813 "y.tab.c"
+#line 1819 "y.tab.c"
     break;
 
   case 62:
 #line 185 "parse.y"
                          { yyval = unaryop(yyvsp[-1], yyvsp[0]); }
-#line 1819 "y.tab.c"
+#line 1825 "y.tab.c"
     break;
 
   case 63:
 #line 186 "parse.y"
                                    { yyval = binop(yyvsp[-1], yyvsp[-2], yyvsp[0]); }
-#line 1825 "y.tab.c"
+#line 1831 "y.tab.c"
     break;
 
   case 64:
 #line 187 "parse.y"
                                     { yyval = binop(yyvsp[-1], yyvsp[-2], yyvsp[0]); }
-#line 1831 "y.tab.c"
+#line 1837 "y.tab.c"
     break;
 
   case 65:
 #line 188 "parse.y"
                                  { yyval = binop(yyvsp[-1], yyvsp[-2], yyvsp[0]); }
-#line 1837 "y.tab.c"
+#line 1843 "y.tab.c"
     break;
 
 
-#line 1841 "y.tab.c"
+#line 1847 "y.tab.c"
 
       default: break;
     }
@@ -2069,7 +2075,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 190 "parse.y"
+#line 191 "parse.y"
 
 
 /* You should add your own debugging flags below, and add debugging

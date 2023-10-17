@@ -129,7 +129,7 @@ program    :  PROGRAM IDENTIFIER LPAREN idlist RPAREN SEMICOLON cblock DOT { par
              |  NOT factor { $$ = unaryop($1, $2); }
              |  funcall
              ;
-  variable   : IDENTIFIER
+  variable   : IDENTIFIER { $$ = findid($1); }
              ;
 
   idlist   :  IDENTIFIER COMMA idlist
@@ -187,6 +187,7 @@ program    :  PROGRAM IDENTIFIER LPAREN idlist RPAREN SEMICOLON cblock DOT { par
             | simpleexpr MINUS term { $$ = binop($2, $1, $3); }
             | simpleexpr OR term { $$ = binop($2, $1, $3); }
             ;
+
 %%
 
 /* You should add your own debugging flags below, and add debugging
