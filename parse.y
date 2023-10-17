@@ -168,8 +168,19 @@ program    :  PROGRAM IDENTIFIER LPAREN idlist RPAREN SEMICOLON cblock DOT { par
            | vblock
            ;
 
-  constspecs: IDENTIFIER EQ NUMBER SEMICOLON constspecs { instconst($1, $3); }
-            | IDENTIFIER EQ NUMBER SEMICOLON { instconst($1, $3); }
+  constant : IDENTIFIER
+           | PLUS IDENTIFIER { $$ = unaryop($1, $2); }
+           | MINUS IDENTIFIER { $$ = unaryop($1, $2); }
+           | NUMBER
+           | PLUS NUMBER { $$ = unaryop($1, $2); }
+           | MINUS NUMBER { $$ = unaryop($1, $2); }
+           | STRING
+           ;
+
+  const_def: IDENTIFIER EQ constant { instconst($1, $3); }
+
+  constspecs: const_def SEMICOLON constspecs
+            | const_def SEMICOLON
             ;
 
   typespecs : IDENTIFIER EQ TYPE typespecs
