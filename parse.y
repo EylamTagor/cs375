@@ -99,6 +99,7 @@ program    :  PROGRAM IDENTIFIER LPAREN idlist RPAREN SEMICOLON lblock DOT { par
              | REPEAT stlist UNTIL expr { $$ = makerepeat($1, $2, $3, $4); }
              | NUMBER COLON statement { $$ = dolabel($1, $2, $3); }
              | GOTO NUMBER { $$ = dogoto($1, $2); }
+             | WHILE expr DO statement { $$ = makewhile($1, $2, $3, $4); }
              ;
   endpart    :  SEMICOLON statement endpart    { $$ = cons($2, $3); }
              |  END                            { $$ = NULL; }
@@ -138,7 +139,7 @@ program    :  PROGRAM IDENTIFIER LPAREN idlist RPAREN SEMICOLON lblock DOT { par
              | variable mergelist
              ;
 
-  mergelist  : LBRACKET expr_list RBRACKET { $$ = arrayref($1, NULL, $2, NULL); }
+  mergelist  : IDENTIFIER LBRACKET expr_list RBRACKET { $$ = arrayref($1, $2, $3, $4); }
 
   idlist   :  IDENTIFIER COMMA idlist
                           { $$ = cons($1, $3); }
@@ -893,6 +894,21 @@ TOKEN makearef(TOKEN var, TOKEN off, TOKEN tok) {
   var->link = off;
   areftok->operands = var;
   return areftok;
+}
+
+/* makewhile makes structures for a while statement.
+   tok and tokb are (now) unused tokens that are recycled. */
+TOKEN makewhile(TOKEN tok, TOKEN expr, TOKEN tokb, TOKEN statement) {
+  TOKEN labeltok = makelabel();
+
+  statement->link = makegoto(labelnumber - 1);
+  
+  TOKEN ifs = talloc();
+  ifs = makeif(ifs, expr, makeprogn(tokb, statement), NULL);
+  labeltok->link = ifs;
+
+  tok = makeprogn(tok, labeltok);
+  return tok;
 }
 
 int main(void)
