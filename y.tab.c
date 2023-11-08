@@ -2921,27 +2921,27 @@ TOKEN makefix(TOKEN tok) {
    re, im: real    put the pointer to REAL in the RE, IM tokens.
    typetok is a token whose symtype is a symbol table pointer.
    Note that nconc() can be used to combine these lists after instrec() */
-TOKEN instfields(TOKEN idlist, TOKEN typetok) {
-  SYMBOL symtype = typetok->symtype;
-  TOKEN curr = idlist;
-
-  while(curr) {
-    curr->symtype = symtype;
-    curr = curr->link;
-  }
-
-  return idlist;
-}
 // TOKEN instfields(TOKEN idlist, TOKEN typetok) {
-//   SYMBOL typesym = typetok->symtype;
-//   TOKEN temp = idlist;
-//   while(temp) {
-//     temp->symtype = typesym;     
-//     temp = temp->link;
+//   SYMBOL symtype = typetok->symtype;
+//   TOKEN curr = idlist;
+
+//   while(curr) {
+//     curr->symtype = symtype;
+//     curr = curr->link;
 //   }
 
 //   return idlist;
 // }
+TOKEN instfields(TOKEN idlist, TOKEN typetok) {
+  SYMBOL typesym = typetok->symtype;
+  TOKEN temp = idlist;
+  while(temp) {
+    temp->symtype = typesym;     
+    temp = temp->link;
+  }
+
+  return idlist;
+}
 
 /***************************************************************/
 /***************************************************************/
@@ -2975,48 +2975,48 @@ int findlabelnumber(int label) {
 
 /* dolabel is the action for a label of the form   <number>: <statement>
    tok is a (now) unused token that is recycled. */
-TOKEN dolabel(TOKEN labeltok, TOKEN tok, TOKEN statement) {
-  int i = 0;
-  while (i < labelnumber && label_table[i] != labeltok->intval) {
-    ++i;
-  }
-
-  i = i == labelnumber ? -1 : i;
-
-  TOKEN tokprogn = makeop(PROGNOP);
-  TOKEN toklabel = makeop(LABELOP);
-  TOKEN toki = makeintc(i);
-
-  toklabel->operands = toki;
-  toklabel->link = statement;
-
-  tokprogn->operands = toklabel;
-
-  return (!tokprogn || !toklabel || !toki) ? NULL : tokprogn;
-}
 // TOKEN dolabel(TOKEN labeltok, TOKEN tok, TOKEN statement) {
-//     int real_label = findlabelnumber(labeltok->intval);
-//     if (real_label == -1) {
-//       printf("Error: user defined label not found");
-//     }
+//   int i = 0;
+//   while (i < labelnumber && label_table[i] != labeltok->intval) {
+//     ++i;
+//   }
 
-//     labeltok = makeop(LABELOP);
-//     TOKEN tokb = makeintc(real_label);
-//     labeltok->operands=tokb;
-//     labeltok->link = statement;
-//     tok = makeprogn(tok, labeltok);
+//   i = i == labelnumber ? -1 : i;
 
-//     return tok;
+//   TOKEN tokprogn = makeop(PROGNOP);
+//   TOKEN toklabel = makeop(LABELOP);
+//   TOKEN toki = makeintc(i);
+
+//   toklabel->operands = toki;
+//   toklabel->link = statement;
+
+//   tokprogn->operands = toklabel;
+
+//   return (!tokprogn || !toklabel || !toki) ? NULL : tokprogn;
 // }
+TOKEN dolabel(TOKEN labeltok, TOKEN tok, TOKEN statement) {
+    int real_label = findlabelnumber(labeltok->intval);
+    if (real_label == -1) {
+      printf("Error: user defined label not found");
+    }
+
+    labeltok = makeop(LABELOP);
+    TOKEN tokb = makeintc(real_label);
+    labeltok->operands=tokb;
+    labeltok->link = statement;
+    tok = makeprogn(tok, labeltok);
+
+    return tok;
+}
 
 // /* instlabel installs a user label into the label table */
-void  instlabel (TOKEN num) {
-  label_table[labelnumber] = num->intval;
-  ++labelnumber;
-}
 // void  instlabel (TOKEN num) {
-//   label_table[labelnumber++] = num->intval;  
+//   label_table[labelnumber] = num->intval;
+//   ++labelnumber;
 // }
+void  instlabel (TOKEN num) {
+  label_table[labelnumber++] = num->intval;  
+}
 
 /* nconc concatenates two token lists, destructively, by making the last link
    of lista point to listb.
@@ -3024,198 +3024,184 @@ void  instlabel (TOKEN num) {
 /* nconc is useful for putting together two fieldlist groups to
    make them into a single list in a record declaration. */
 /* nconc should return lista, or listb if lista is NULL. */
-TOKEN nconc(TOKEN lista, TOKEN listb) {
-  if (!lista || !listb) {
-    return NULL;
-  }
-
-  // fencepost
-  TOKEN tok = lista, curr = tok->link;
-
-  while (curr) {
-    tok = curr;
-    curr = curr->link;
-  }
-
-  tok->link = listb;
-
-  return tok;
-}
 // TOKEN nconc(TOKEN lista, TOKEN listb) {
-//   TOKEN temp = lista;
-//   while(temp->link) {
-//     temp = temp->link;
+//   if (!lista || !listb) {
+//     return NULL;
 //   }
-//   temp->link = listb;
-//   return temp;
+
+//   // fencepost
+//   TOKEN tok = lista, curr = tok->link;
+
+//   while (curr) {
+//     tok = curr;
+//     curr = curr->link;
+//   }
+
+//   tok->link = listb;
+
+//   return tok;
 // }
+TOKEN nconc(TOKEN lista, TOKEN listb) {
+  TOKEN temp = lista;
+  while(temp->link) {
+    temp = temp->link;
+  }
+  temp->link = listb;
+  return temp;
+}
 
 /* dogoto is the action for a goto statement.
    tok is a (now) unused token that is recycled. */
-TOKEN dogoto(TOKEN tok, TOKEN labeltok) {
-  int i = 0;
-  while (i < labelnumber && label_table[i] != labeltok->intval) {
-    ++i;
-  }
-
-  i = i == labelnumber ? -1 : i;
-
-  return makegoto(i);
-}
 // TOKEN dogoto(TOKEN tok, TOKEN labeltok) {
-//     int real_label = findlabelnumber(labeltok->intval);
-//     if (real_label == -1) {
-//       printf("Error: user defined label not found");
-//     }  
+//   int i = 0;
+//   while (i < labelnumber && label_table[i] != labeltok->intval) {
+//     ++i;
+//   }
 
-//     tok = makegoto(real_label);
+//   i = i == labelnumber ? -1 : i;
 
-//     return tok;
+//   return makegoto(i);
 // }
+TOKEN dogoto(TOKEN tok, TOKEN labeltok) {
+    int real_label = findlabelnumber(labeltok->intval);
+    if (real_label == -1) {
+      printf("Error: user defined label not found");
+    }  
+
+    tok = makegoto(real_label);
+
+    return tok;
+}
 
 /* instrec will install a record definition.  Each token in the linked list
    argstok has a pointer its type.  rectok is just a trash token to be
    used to return the result in its symtype */
-TOKEN instrec(TOKEN rectok, TOKEN argstok) {
-  SYMBOL record = symalloc();
-  record->kind = RECORDSYM;
-  record->datatype = argstok->symtype;
-
-  SYMBOL prev;
-
-  // fencepost
-  int next = 0;
-  int size = wordaddress(argstok->symtype->size, 8);
-  while(argstok) {
-    SYMBOL field = makesym(argstok->stringval);
-    field->offset = wordaddress(next, 8);
-    field->datatype = argstok->symtype;
-    field->size = field->datatype->size;
-
-    if (next == 0) {
-      record->datatype = field;
-      prev = field;
-    } else {
-      prev->link = field;
-      prev = field;
-    }
-
-    next = field->size + field->offset;
-    argstok = argstok->link;
-    field->link = NULL;
-  }
-
-  record->size = wordaddress(next, 16);
-  rectok->symtype = record;
-  return rectok;
-}
 // TOKEN instrec(TOKEN rectok, TOKEN argstok) {
-//   //Do storage allocation algorithm
-//   SYMBOL recsym = symalloc();
-//   recsym->kind = RECORDSYM;
-//   int count = 0, next = 0, align;
+//   SYMBOL record = symalloc();
+//   record->kind = RECORDSYM;
+//   record->datatype = argstok->symtype;
 
-//   SYMBOL prev = NULL;
-//   while (argstok) {
-//     align = alignsize(argstok->symtype);
-//     SYMBOL recfield = makesym(argstok->stringval);
-//     recfield->datatype = argstok->symtype;
-//     recfield->offset = wordaddress(next, align);
-//     recfield->size = argstok->symtype->size;
-//     next = recfield->offset + recfield->size;
-//     if (count == 0) {
-//       recsym->datatype = recfield;
-//       prev = recfield;
+//   SYMBOL prev;
+
+//   // fencepost
+//   int next = 0;
+//   int size = wordaddress(argstok->symtype->size, 8);
+//   while(argstok) {
+//     SYMBOL field = makesym(argstok->stringval);
+//     field->offset = wordaddress(next, 8);
+//     field->datatype = argstok->symtype;
+//     field->size = field->datatype->size;
+
+//     if (next == 0) {
+//       record->datatype = field;
+//       prev = field;
 //     } else {
-//       prev->link = recfield;
-//       prev = recfield;
+//       prev->link = field;
+//       prev = field;
 //     }
-//     recfield->link = NULL;
-//     count ++;
+
+//     next = field->size + field->offset;
 //     argstok = argstok->link;
+//     field->link = NULL;
 //   }
 
-//   recsym->size = wordaddress(next, 16); 
-//   rectok->symtype = recsym;
-
+//   record->size = wordaddress(next, 16);
+//   rectok->symtype = record;
 //   return rectok;
 // }
+TOKEN instrec(TOKEN rectok, TOKEN argstok) {
+  //Do storage allocation algorithm
+  SYMBOL recsym = symalloc();
+  recsym->kind = RECORDSYM;
+  int count = 0, next = 0, align;
+
+  SYMBOL prev = NULL;
+  while (argstok) {
+    align = alignsize(argstok->symtype);
+    SYMBOL recfield = makesym(argstok->stringval);
+    recfield->datatype = argstok->symtype;
+    recfield->offset = wordaddress(next, align);
+    recfield->size = argstok->symtype->size;
+    next = recfield->offset + recfield->size;
+    if (count == 0) {
+      recsym->datatype = recfield;
+      prev = recfield;
+    } else {
+      prev->link = recfield;
+      prev = recfield;
+    }
+    recfield->link = NULL;
+    count ++;
+    argstok = argstok->link;
+  }
+
+  recsym->size = wordaddress(next, 16); 
+  rectok->symtype = recsym;
+
+  return rectok;
+}
 
 /* insttype will install a type name in symbol table.
    typetok is a token containing symbol table pointers. */
-void  insttype(TOKEN typename, TOKEN typetok) {
-  SYMBOL type = searchins(typename->stringval);
-  type->datatype = typetok->symtype;
-  type->kind = TYPESYM;
-  type->size = typetok->symtype->size;
-  type->basicdt = typetok->symtype->basicdt;
-}
 // void  insttype(TOKEN typename, TOKEN typetok) {
-//   SYMBOL typesym = searchins(typename->stringval);
-//   typesym->kind = TYPESYM;
-//   typesym->datatype = typetok->symtype;
-//   typesym->size = typetok->symtype->size;
+//   SYMBOL type = searchins(typename->stringval);
+//   type->datatype = typetok->symtype;
+//   type->kind = TYPESYM;
+//   type->size = typetok->symtype->size;
+//   type->basicdt = typetok->symtype->basicdt;
 // }
+void  insttype(TOKEN typename, TOKEN typetok) {
+  SYMBOL typesym = searchins(typename->stringval);
+  typesym->kind = TYPESYM;
+  typesym->datatype = typetok->symtype;
+  typesym->size = typetok->symtype->size;
+}
 
 /* instpoint will install a pointer type in symbol table */
-TOKEN instpoint(TOKEN tok, TOKEN typename) {
-  SYMBOL ptr = symalloc();
-  ptr->basicdt = POINTER;
-  ptr->kind = POINTERSYM;
-  ptr->datatype = searchins(typename->stringval);
-  ptr->size = 8;
-
-  tok->symtype = ptr;
-  return tok;
-}
 // TOKEN instpoint(TOKEN tok, TOKEN typename) {
+//   SYMBOL ptr = symalloc();
+//   ptr->basicdt = POINTER;
+//   ptr->kind = POINTERSYM;
+//   ptr->datatype = searchins(typename->stringval);
+//   ptr->size = 8;
 
-//   SYMBOL typesym = searchins(typename->stringval);
-
-
-//   SYMBOL pointsym = symalloc();
-//   pointsym->datatype = typesym;
-//   pointsym->kind = POINTERSYM;
-//   pointsym->size = basicsizes[POINTER];
-//   pointsym->basicdt = POINTER;
-
-//   tok->symtype = pointsym;
-
+//   tok->symtype = ptr;
 //   return tok;
 // }
+TOKEN instpoint(TOKEN tok, TOKEN typename) {
+
+  SYMBOL typesym = searchins(typename->stringval);
+
+
+  SYMBOL pointsym = symalloc();
+  pointsym->datatype = typesym;
+  pointsym->kind = POINTERSYM;
+  pointsym->size = basicsizes[POINTER];
+  pointsym->basicdt = POINTER;
+
+  tok->symtype = pointsym;
+
+  return tok;
+}
 
 /* instarray installs an array declaration into the symbol table.
    bounds points to a SUBRANGE symbol table entry.
    The symbol table pointer is returned in token typetok. */
 TOKEN instarray(TOKEN bounds, TOKEN typetok) {
-  TOKEN bound = bounds;
-  SYMBOL prev = NULL;
+  SYMBOL array = symalloc();
+  array->kind = ARRAYSYM;
 
-  int lower_bound = bound->symtype->lowbound, upper_bound = bound->symtype->highbound;
-  while (bound) {
-    lower_bound = bound->symtype->lowbound;
-    upper_bound = bound->symtype->highbound;
-
-    SYMBOL array = symalloc();
-    array->kind = ARRAYSYM;
-    array->size = searchst(typetok->stringval)->size * (upper_bound - lower_bound + 1);
-
-    if (searchst(typetok->stringval)) {
-      array->datatype = searchst(typetok->stringval);
-    }
-
-    if (prev != NULL) {
-      array->datatype = typetok->symtype;
-      array->size = prev->size * (upper_bound - lower_bound + 1);
-    }
-
-    prev = array;
-    typetok->symtype = array;
-
-    bound = bound->link;
-    array->lowbound = lower_bound;
-    array->highbound = upper_bound;
+  if (bounds->link) {
+    typetok = instarray(bounds->link, typetok);
   }
+
+  array->datatype = typetok->symtype;
+
+  array->lowbound = bounds->symtype->lowbound;
+  array->highbound = bounds->symtype->highbound;
+  array->size = typetok->symtype->size * (array->highbound - array->lowbound + 1);
+
+  typetok->symtype = array;
 
   return typetok;
 }
@@ -3255,270 +3241,270 @@ TOKEN instarray(TOKEN bounds, TOKEN typetok) {
 
 /* instdotdot installs a .. subrange in the symbol table.
    dottok is a (now) unused token that is recycled. */
-TOKEN instdotdot(TOKEN lowtok, TOKEN dottok, TOKEN hightok) {
-  return makesubrange(dottok, lowtok->intval, hightok->intval);
-}
 // TOKEN instdotdot(TOKEN lowtok, TOKEN dottok, TOKEN hightok) {
-//   int low = lowtok->intval;
-//   int high = hightok->intval;
-
-//   return makesubrange(dottok, low, high);
+//   return makesubrange(dottok, lowtok->intval, hightok->intval);
 // }
+TOKEN instdotdot(TOKEN lowtok, TOKEN dottok, TOKEN hightok) {
+  int low = lowtok->intval;
+  int high = hightok->intval;
+
+  return makesubrange(dottok, low, high);
+}
 
 /* makesubrange makes a SUBRANGE symbol table entry, puts the pointer to it
    into tok, and returns tok. */
-TOKEN makesubrange(TOKEN tok, int low, int high) {
-  SYMBOL sub = symalloc();
-  sub->basicdt = INTEGER;
-  sub->kind = SUBRANGE;
-
-  sub->lowbound = low;
-  sub->highbound = high;
-
-  sub->size = 4;
-
-  tok->symtype = sub;
-  return tok;
-}
 // TOKEN makesubrange(TOKEN tok, int low, int high) {
+//   SYMBOL sub = symalloc();
+//   sub->basicdt = INTEGER;
+//   sub->kind = SUBRANGE;
 
-//   SYMBOL subrange = symalloc();
-//   subrange->kind = SUBRANGE;
-//   subrange->basicdt = INTEGER;
-//   subrange->lowbound = low;
-//   subrange->highbound = high;
-//   subrange->size = basicsizes[INTEGER];
-//   tok->symtype = subrange;
+//   sub->lowbound = low;
+//   sub->highbound = high;
 
+//   sub->size = 4;
+
+//   tok->symtype = sub;
 //   return tok;
 // }
+TOKEN makesubrange(TOKEN tok, int low, int high) {
+
+  SYMBOL subrange = symalloc();
+  subrange->kind = SUBRANGE;
+  subrange->basicdt = INTEGER;
+  subrange->lowbound = low;
+  subrange->highbound = high;
+  subrange->size = basicsizes[INTEGER];
+  tok->symtype = subrange;
+
+  return tok;
+}
 
 /* instenum installs an enumerated subrange in the symbol table,
    e.g., type color = (red, white, blue)
    by calling makesubrange and returning the token it returns. */
-TOKEN instenum(TOKEN idlist) {
-  int size = -1;
-  
-  TOKEN idlist_copy = copytok(idlist);
-  while (idlist_copy) {
-    instconst(idlist_copy, makeintc(size++));
-    idlist_copy = idlist_copy->link;
-  }
-
-  return makesubrange(idlist, 0, size);
-}
 // TOKEN instenum(TOKEN idlist) {
-//   int count = 0;
-
-//   TOKEN list = copytok(idlist);
-//   while (list) {
-//     instconst(list, makeintc(count));
-//     count ++;
-//     list = list->link;
+//   int size = -1;
+  
+//   TOKEN idlist_copy = copytok(idlist);
+//   while (idlist_copy) {
+//     instconst(idlist_copy, makeintc(size++));
+//     idlist_copy = idlist_copy->link;
 //   }
 
-//   TOKEN tok = makesubrange(idlist, 0, count - 1);
-
-//   return tok;
+//   return makesubrange(idlist, 0, size);
 // }
+TOKEN instenum(TOKEN idlist) {
+  int count = 0;
+
+  TOKEN list = copytok(idlist);
+  while (list) {
+    instconst(list, makeintc(count));
+    count ++;
+    list = list->link;
+  }
+
+  TOKEN tok = makesubrange(idlist, 0, count - 1);
+
+  return tok;
+}
 
 /* dopoint handles a ^ operator.  john^ becomes (^ john) with type record
    tok is a (now) unused token that is recycled. */
-TOKEN dopoint(TOKEN var, TOKEN tok) {
-  tok->operands = var;
-  tok->symentry = var->symentry->datatype->datatype;
-  return tok;
-}
 // TOKEN dopoint(TOKEN var, TOKEN tok) {
-//   tok->symentry = var->symentry->datatype->datatype;
 //   tok->operands = var;
-
+//   tok->symentry = var->symentry->datatype->datatype;
 //   return tok;
 // }
+TOKEN dopoint(TOKEN var, TOKEN tok) {
+  tok->symentry = var->symentry->datatype->datatype;
+  tok->operands = var;
+
+  return tok;
+}
 
 /* arrayref processes an array reference a[i]
    subs is a list of subscript expressions.
    tok and tokb are (now) unused tokens that are recycled. */
-TOKEN arrayref(TOKEN arr, TOKEN tok, TOKEN subs, TOKEN tokb) {
-  int lower_bound = arr->symtype->lowbound, upper_bound = arr->symtype->highbound;
-  int size = arr->symtype->size / (upper_bound + lower_bound - 1);
-
-  TOKEN sizetok = makeintc(-size);
-  sizetok->link = makeop(TIMESOP);
-  sizetok->link->operands = makeintc(size);
-  if (!subs->link) {
-    sizetok->link->operands->link = subs;
-  } else {
-    sizetok->link->operands->link = copytok(subs);
-    sizetok->link->operands->link->link = NULL;
-  }
-
-  TOKEN plustok = makeop(PLUSOP);
-  plustok->operands = sizetok;
-
-  TOKEN subarray_ref_tok = makearef(arr, plustok, tokb);
-  subarray_ref_tok->symtype = arr->symtype->datatype;
-
-  if (!subs->link) {
-    return makearef(arr, plustok, tokb);
-  }
-
-  return arrayref(subarray_ref_tok, tok, subs->link, tokb);
-}
 // TOKEN arrayref(TOKEN arr, TOKEN tok, TOKEN subs, TOKEN tokb) {
-//   if (subs->link) {
-//     TOKEN timesop = makeop(TIMESOP);
-//     int low = arr->symtype->lowbound;
-//     int high = arr->symtype->highbound;
-//     int size = (arr->symtype->size / (high + low - 1));
+//   int lower_bound = arr->symtype->lowbound, upper_bound = arr->symtype->highbound;
+//   int size = arr->symtype->size / (upper_bound + lower_bound - 1);
 
-//     TOKEN s = copytok(subs);
-//     s->link = NULL;
-//     TOKEN elesize = makeintc(size);
-//     elesize->link = s;
-//     timesop->operands = elesize;
-
-//     TOKEN nsize = makeintc(-1 * size);
-//     nsize->link = timesop;
-//     TOKEN plusop = makeop(PLUSOP);
-//     plusop->operands = nsize;
-
-//     TOKEN subarref = makearef(arr, plusop, tokb);
-    
-//     subarref->symtype = arr->symtype->datatype;
-
-//     return arrayref(subarref, tok, subs->link, tokb);
-
-
+//   TOKEN sizetok = makeintc(-size);
+//   sizetok->link = makeop(TIMESOP);
+//   sizetok->link->operands = makeintc(size);
+//   if (!subs->link) {
+//     sizetok->link->operands->link = subs;
 //   } else {
-//     TOKEN timesop = makeop(TIMESOP);
-//     int low = arr->symtype->lowbound;
-//     int high = arr->symtype->highbound;
-//     int size = (arr->symtype->size / (high + low - 1));
-
-//     TOKEN elesize = makeintc(size);
-//     elesize->link = subs;
-//     timesop->operands = elesize;
-
-//     TOKEN nsize = makeintc(-1 * size);
-//     nsize->link = timesop;
-//     TOKEN plusop = makeop(PLUSOP);
-//     plusop->operands = nsize;
-
-//     return makearef(arr, plusop, tokb);
+//     sizetok->link->operands->link = copytok(subs);
+//     sizetok->link->operands->link->link = NULL;
 //   }
 
-  
+//   TOKEN plustok = makeop(PLUSOP);
+//   plustok->operands = sizetok;
+
+//   TOKEN subarray_ref_tok = makearef(arr, plustok, tokb);
+//   subarray_ref_tok->symtype = arr->symtype->datatype;
+
+//   if (!subs->link) {
+//     return makearef(arr, plustok, tokb);
+//   }
+
+//   return arrayref(subarray_ref_tok, tok, subs->link, tokb);
 // }
+TOKEN arrayref(TOKEN arr, TOKEN tok, TOKEN subs, TOKEN tokb) {
+  if (subs->link) {
+    TOKEN timesop = makeop(TIMESOP);
+    int low = arr->symtype->lowbound;
+    int high = arr->symtype->highbound;
+    int size = (arr->symtype->size / (high + low - 1));
+
+    TOKEN s = copytok(subs);
+    s->link = NULL;
+    TOKEN elesize = makeintc(size);
+    elesize->link = s;
+    timesop->operands = elesize;
+
+    TOKEN nsize = makeintc(-1 * size);
+    nsize->link = timesop;
+    TOKEN plusop = makeop(PLUSOP);
+    plusop->operands = nsize;
+
+    TOKEN subarref = makearef(arr, plusop, tokb);
+    
+    subarref->symtype = arr->symtype->datatype;
+
+    return arrayref(subarref, tok, subs->link, tokb);
+
+
+  } else {
+    TOKEN timesop = makeop(TIMESOP);
+    int low = arr->symtype->lowbound;
+    int high = arr->symtype->highbound;
+    int size = (arr->symtype->size / (high + low - 1));
+
+    TOKEN elesize = makeintc(size);
+    elesize->link = subs;
+    timesop->operands = elesize;
+
+    TOKEN nsize = makeintc(-1 * size);
+    nsize->link = timesop;
+    TOKEN plusop = makeop(PLUSOP);
+    plusop->operands = nsize;
+
+    return makearef(arr, plusop, tokb);
+  }
+
+  
+}
 
 /* reducedot handles a record reference.
    dot is a (now) unused token that is recycled. */
-TOKEN reducedot(TOKEN var, TOKEN dot, TOKEN field) {
-  SYMBOL curr = var->symentry->datatype->datatype;
-
-  int offset = 0;
-  while(curr && strcmp(field->stringval, curr->namestring)) {
-    offset = curr->offset;
-    curr = curr->link;
-  }
-
-  var->symentry = curr;
-  return makearef(var, makeintc(offset), dot);
-}
 // TOKEN reducedot(TOKEN var, TOKEN dot, TOKEN field) {
+//   SYMBOL curr = var->symentry->datatype->datatype;
 
-//   SYMBOL recsym = var->symentry;
-//   SYMBOL curfield = recsym->datatype->datatype;
 //   int offset = 0;
-//   while(curfield) {
-//     if (strcmp(curfield->namestring, field->stringval) == 0) {
-//       offset = curfield->offset;
-//       var->symentry = curfield;
-//       break;
-//     } else {
-//       curfield = curfield->link;
-//     }
+//   while(curr && strcmp(field->stringval, curr->namestring)) {
+//     offset = curr->offset;
+//     curr = curr->link;
 //   }
 
-//   dot = makearef(var, makeintc(offset), dot);
-
-//   return dot;
- 
+//   var->symentry = curr;
+//   return makearef(var, makeintc(offset), dot);
 // }
+TOKEN reducedot(TOKEN var, TOKEN dot, TOKEN field) {
+
+  SYMBOL recsym = var->symentry;
+  SYMBOL curfield = recsym->datatype->datatype;
+  int offset = 0;
+  while(curfield) {
+    if (strcmp(curfield->namestring, field->stringval) == 0) {
+      offset = curfield->offset;
+      var->symentry = curfield;
+      break;
+    } else {
+      curfield = curfield->link;
+    }
+  }
+
+  dot = makearef(var, makeintc(offset), dot);
+
+  return dot;
+ 
+}
 
 /* makearef makes an array reference operation.
    off is be an integer constant token
    tok (if not NULL) is a (now) unused token that is recycled. */
-TOKEN makearef(TOKEN var, TOKEN off, TOKEN tok) {
-  TOKEN areftok = makeop(AREFOP);
+// TOKEN makearef(TOKEN var, TOKEN off, TOKEN tok) {
+//   TOKEN areftok = makeop(AREFOP);
 
-  var->link = off;
-  areftok->operands = var;
-  areftok->symentry = var->symentry;
+//   var->link = off;
+//   areftok->operands = var;
+//   areftok->symentry = var->symentry;
 
-  // handle special case
-  if (var->whichval == AREFOP && off->basicdt == INTEGER) {
-    if (var->operands->link->whichval == PLUSOP) {
-      TOKEN offtok_new = makeintc(off->intval + var->operands->link->operands->intval);
-      var->operands->link->operands = offtok_new;
-      offtok_new->link = var->operands->link->operands->link;
-    }
-  }
-
-  return areftok;
-}
-// TOKEN makearef(TOKEN var, TOKEN off, TOKEN tok){
+//   // handle special case
 //   if (var->whichval == AREFOP && off->basicdt == INTEGER) {
-    
-//     TOKEN off1 = var->operands->link;
-//     if (off1->whichval == PLUSOP) {
-//       int num = off1->operands->intval;  
-//       int num2 = off->intval;
-//       TOKEN newoff = makeintc(num + num2);
-//       newoff->link = off1->operands->link;
-//       off1->operands = newoff;
+//     if (var->operands->link->whichval == PLUSOP) {
+//       TOKEN offtok_new = makeintc(off->intval + var->operands->link->operands->intval);
+//       var->operands->link->operands = offtok_new;
+//       offtok_new->link = var->operands->link->operands->link;
 //     }
 //   }
 
-//   TOKEN areftok = makeop(AREFOP);
-//   var->link = off;
-//   areftok->operands = var;
-//   areftok->symentry = var->symentry;   
-
 //   return areftok;
 // }
+TOKEN makearef(TOKEN var, TOKEN off, TOKEN tok){
+  if (var->whichval == AREFOP && off->basicdt == INTEGER) {
+    
+    TOKEN off1 = var->operands->link;
+    if (off1->whichval == PLUSOP) {
+      int num = off1->operands->intval;  
+      int num2 = off->intval;
+      TOKEN newoff = makeintc(num + num2);
+      newoff->link = off1->operands->link;
+      off1->operands = newoff;
+    }
+  }
+
+  TOKEN areftok = makeop(AREFOP);
+  var->link = off;
+  areftok->operands = var;
+  areftok->symentry = var->symentry;   
+
+  return areftok;
+}
 
 /* makewhile makes structures for a while statement.
    tok and tokb are (now) unused tokens that are recycled. */
-TOKEN makewhile(TOKEN tok, TOKEN expr, TOKEN tokb, TOKEN statement) {
-  TOKEN labeltok = makelabel();
-
-  statement->link = makegoto(labelnumber - 1);
-  
-  TOKEN ifs = talloc();
-  ifs = makeif(ifs, expr, makeprogn(tokb, statement), NULL);
-  labeltok->link = ifs;
-
-  tok = makeprogn(tok, labeltok);
-  return tok;
-}
 // TOKEN makewhile(TOKEN tok, TOKEN expr, TOKEN tokb, TOKEN statement) {
+//   TOKEN labeltok = makelabel();
+
+//   statement->link = makegoto(labelnumber - 1);
   
-//   TOKEN label = makelabel();
-//   int current = labelnumber - 1;
-//   tok = makeprogn(tok, label);
-
-//   TOKEN gototok = makegoto(current);
-//   statement->link = gototok;
-//   TOKEN body = makeprogn(tokb, statement);
-
 //   TOKEN ifs = talloc();
-//   ifs = makeif(ifs, expr, body, NULL);
-//   label->link = ifs;
+//   ifs = makeif(ifs, expr, makeprogn(tokb, statement), NULL);
+//   labeltok->link = ifs;
 
+//   tok = makeprogn(tok, labeltok);
 //   return tok;
-  
 // }
+TOKEN makewhile(TOKEN tok, TOKEN expr, TOKEN tokb, TOKEN statement) {
+  
+  TOKEN label = makelabel();
+  int current = labelnumber - 1;
+  tok = makeprogn(tok, label);
+
+  TOKEN gototok = makegoto(current);
+  statement->link = gototok;
+  TOKEN body = makeprogn(tokb, statement);
+
+  TOKEN ifs = talloc();
+  ifs = makeif(ifs, expr, body, NULL);
+  label->link = ifs;
+
+  return tok;
+  
+}
 
 int main(void)
   { int res;
