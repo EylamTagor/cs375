@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "random": "c",
-        "array": "c"
+        "array": "c",
+        "*.tcc": "c"
     }
 }
