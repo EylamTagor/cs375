@@ -873,9 +873,13 @@ TOKEN makefloat(TOKEN tok) {
 /* makefix forces the item tok to be integer, by truncating a constant
    or by inserting a FIXOP operator */
 TOKEN makefix(TOKEN tok) {
-  TOKEN tok_fix = makeop(FIXOP);
-  tok_fix->operands = tok;
-  return tok_fix;
+  if (tok->tokentype != NUMBERTOK) {
+    TOKEN tok_fix = makeop(FIXOP);
+    tok_fix->operands = tok;
+    return tok_fix;
+  }
+
+  return tok;
 }
 // TOKEN makefix(TOKEN tok) {
 //   if(tok->tokentype == NUMBERTOK) {
@@ -936,14 +940,14 @@ TOKEN instfields(TOKEN idlist, TOKEN typetok) {
 /***************************************************************/
 /***************************************************************/
 /***************************************************************/
-// int findlabelnumber(int label) {
-//   for(int i = 0; i < labelnumber; i ++) {
-//     if (label_table[i] == label) {
-//       return i;
-//     }
-//   }
-//   return -1;
-// }
+int findlabelnumber(int label) {
+  for(int i = 0; i < labelnumber; i ++) {
+    if (label_table[i] == label) {
+      return i;
+    }
+  }
+  return -1;
+}
 
 /* dolabel is the action for a label of the form   <number>: <statement>
    tok is a (now) unused token that is recycled. */
@@ -1375,11 +1379,14 @@ TOKEN reducedot(TOKEN var, TOKEN dot, TOKEN field) {
   SYMBOL curr = var->symentry->datatype->datatype;
 
   int offset = 0;
-  while(curr && strcmp(field->stringval, curr->namestring)) {
-    offset = curr->offset;
+  while(curr) {
+    if (!strcmp(field->stringval, curr->namestring)) {
+      offset = curr->offset;
+      break;
+    }
     curr = curr->link;
   }
-
+  
   var->symentry = curr;
   return makearef(var, makeintc(offset), dot);
 }
