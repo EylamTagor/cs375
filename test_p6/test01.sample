@@ -1,6 +1,71 @@
-yyparse result =        0
+Symbol table level 0
+ 94457596805792        real  BASIC  basicdt   1          siz     8
+ 94457596805888     integer  BASIC  basicdt   0          siz     4
+ 94457596805984        char  BASIC  basicdt   2          siz     1
+ 94457596806080     boolean  BASIC  basicdt   3          siz     4
+ 94457596806176         exp  knd 5 0  typ 94457596806272  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94457596806464       trexp  knd 5 0  typ 94457596806560  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94457596806752         sin  knd 5 0  typ 94457596806848  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94457596807040         cos  knd 5 0  typ 94457596807136  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94457596807328       trsin  knd 5 0  typ 94457596807424  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94457596807616        sqrt  knd 5 0  typ 94457596807712  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94457596807904       round  knd 5 0  typ 94457596808000  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94457596808192      iround  knd 5 0  typ 94457596808288  lvl  0  siz     0  off     0
+(FUNCTION integer
+          real)
+ 94457596808480         ord  knd 5 0  typ 94457596808576  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94457596808768         new  knd 5 0  typ 94457596808864  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94457596809056       trnew  knd 5 0  typ 94457596809152  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94457596809344       write  knd 5 0  typ 94457596809440  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94457596809632     writeln  knd 5 0  typ 94457596809728  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94457596809920      writef  knd 5 0  typ 94457596810016  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94457596810208    writelnf  knd 5 0  typ 94457596810304  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94457596810496      writei  knd 5 0  typ 94457596810592  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94457596810784    writelni  knd 5 0  typ 94457596810880  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94457596811072        read  knd 5 0  typ 94457596811168  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94457596811360      readln  knd 5 0  typ 94457596811456  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94457596811648         eof  knd 5 0  typ 94457596811744  lvl  0  siz     0  off     0
+(FUNCTION boolean
+          NULL)
 Symbol table level 1
- 94158082608624           x  VAR    1 typ    real  lvl  1  siz     8  off     0
+ 94457596837360           x  VAR    1 typ    real  lvl  1  siz     8  off     0
+yyparse result =        0
 (program graph1 (progn output)
                 (progn (:= x 4.500000e+00)))
 # ---------------- Beginning of Generated Code --------------------
@@ -19,7 +84,7 @@ graph1:
         subq	$32, %rsp 	  # make space for this stack frame
 	movq	%rbx, %r9        # save %rbx (callee-saved) in %r9
 # ------------------------- begin Your code -----------------------------
-	movsd	.LC1(%rip),%xmm0   	#  4.500000 -> %xmm0
+	movsd	.LC2(%rip),%xmm0   	#  4.500000 -> %xmm0
 	movsd	%xmm0,-32(%rbp)     	#  %xmm0 -> x
 # ----------------------- begin Epilogue code ---------------------------
 	movq	%r9, %rbx        # restore %rbx (callee-saved) from %r9
@@ -31,7 +96,7 @@ graph1:
 # ----------------- end Epilogue; Literal data follows ------------------
         .section        .rodata
 	.align  8
-.LC1:
+.LC2:
 	.long	0   	#  4.500000
 	.long	1074921472
 

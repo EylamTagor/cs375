@@ -1,14 +1,80 @@
-yyparse result =        0
+Symbol table level 0
+ 94161496863392        real  BASIC  basicdt   1          siz     8
+ 94161496863488     integer  BASIC  basicdt   0          siz     4
+ 94161496863584        char  BASIC  basicdt   2          siz     1
+ 94161496863680     boolean  BASIC  basicdt   3          siz     4
+ 94161496863776         exp  knd 5 0  typ 94161496863872  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94161496864064       trexp  knd 5 0  typ 94161496864160  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94161496864352         sin  knd 5 0  typ 94161496864448  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94161496864640         cos  knd 5 0  typ 94161496864736  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94161496864928       trsin  knd 5 0  typ 94161496865024  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94161496865216        sqrt  knd 5 0  typ 94161496865312  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94161496865504       round  knd 5 0  typ 94161496865600  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94161496865792      iround  knd 5 0  typ 94161496865888  lvl  0  siz     0  off     0
+(FUNCTION integer
+          real)
+ 94161496866080         ord  knd 5 0  typ 94161496866176  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94161496866368         new  knd 5 0  typ 94161496866464  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94161496866656       trnew  knd 5 0  typ 94161496866752  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94161496866944       write  knd 5 0  typ 94161496867040  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94161496867232     writeln  knd 5 0  typ 94161496867328  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94161496867520      writef  knd 5 0  typ 94161496867616  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94161496867808    writelnf  knd 5 0  typ 94161496867904  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94161496868096      writei  knd 5 0  typ 94161496868192  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94161496868384    writelni  knd 5 0  typ 94161496868480  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94161496868672        read  knd 5 0  typ 94161496868768  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94161496868960      readln  knd 5 0  typ 94161496869056  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94161496869248         eof  knd 5 0  typ 94161496869344  lvl  0  siz     0  off     0
+(FUNCTION boolean
+          NULL)
 Symbol table level 1
- 94243852595280     complex  TYPE   typ 94243852595184  lvl  1  siz    16  off     0
+ 94161496895568     complex  TYPE   typ 94161496895280  lvl  1  siz    16  off     0
 (RECORD (re real)
         (im real))
- 94243852596400          ac  VAR    0 typ 94243852596304  lvl  1  siz   160  off     0
+ 94161496896688          ac  VAR    0 typ 94161496896592  lvl  1  siz   160  off     0
 (ARRAY   1 ..  10 (RECORD (re real)
                           (im real)))
- 94243852596752           y  VAR    1 typ    real  lvl  1  siz     8  off   160
+ 94161496897040           y  VAR    1 typ    real  lvl  1  siz     8  off   160
+yyparse result =        0
 (program graph1 (progn output)
-                (progn (:= y (aref ac 96))))
+                (progn (:= y (float (aref (aref ac (+ -16))
+                                          0)))))
 # ---------------- Beginning of Generated Code --------------------
         .file   "foo"
         .text
@@ -25,9 +91,9 @@ graph1:
         subq	$192, %rsp 	  # make space for this stack frame
 	movq	%rbx, %r9        # save %rbx (callee-saved) in %r9
 # ------------------------- begin Your code -----------------------------
-	movl	$96,%eax         	#  96 -> %eax
+	movl	$0,%eax         	#  0 -> %eax
 	cltq	                  	#  sign-extend
-	movsd	-192(%rbp,%rax),%xmm0         	#  ac[-192] -> %xmm0
+	cvttsd2si	%r8,%xmm0    	#  fix %r8 -> %xmm0
 	movsd	%xmm0,-32(%rbp)     	#  %xmm0 -> y
 # ----------------------- begin Epilogue code ---------------------------
 	movq	%r9, %rbx        # restore %rbx (callee-saved) from %r9

@@ -1,24 +1,89 @@
-yyparse result =        0
+Symbol table level 0
+ 94671114969760        real  BASIC  basicdt   1          siz     8
+ 94671114969856     integer  BASIC  basicdt   0          siz     4
+ 94671114969952        char  BASIC  basicdt   2          siz     1
+ 94671114970048     boolean  BASIC  basicdt   3          siz     4
+ 94671114970144         exp  knd 5 0  typ 94671114970240  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94671114970432       trexp  knd 5 0  typ 94671114970528  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94671114970720         sin  knd 5 0  typ 94671114970816  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94671114971008         cos  knd 5 0  typ 94671114971104  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94671114971296       trsin  knd 5 0  typ 94671114971392  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94671114971584        sqrt  knd 5 0  typ 94671114971680  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94671114971872       round  knd 5 0  typ 94671114971968  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94671114972160      iround  knd 5 0  typ 94671114972256  lvl  0  siz     0  off     0
+(FUNCTION integer
+          real)
+ 94671114972448         ord  knd 5 0  typ 94671114972544  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94671114972736         new  knd 5 0  typ 94671114972832  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94671114973024       trnew  knd 5 0  typ 94671114973120  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94671114973312       write  knd 5 0  typ 94671114973408  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94671114973600     writeln  knd 5 0  typ 94671114973696  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94671114973888      writef  knd 5 0  typ 94671114973984  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94671114974176    writelnf  knd 5 0  typ 94671114974272  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94671114974464      writei  knd 5 0  typ 94671114974560  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94671114974752    writelni  knd 5 0  typ 94671114974848  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94671114975040        read  knd 5 0  typ 94671114975136  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94671114975328      readln  knd 5 0  typ 94671114975424  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94671114975616         eof  knd 5 0  typ 94671114975712  lvl  0  siz     0  off     0
+(FUNCTION boolean
+          NULL)
 Symbol table level 1
- 94370148671568     complex  TYPE   typ 94370148671472  lvl  1  siz    16  off     0
+ 94671115001936     complex  TYPE   typ 94671115001648  lvl  1  siz    16  off     0
 (RECORD (re real)
         (im real))
- 94370148672368         red  CONST  typ INTEGER  val  0
- 94370148672464       white  CONST  typ INTEGER  val  1
- 94370148672560        blue  CONST  typ INTEGER  val  2
- 94370148672752       color  TYPE   typ 94370148672656  lvl  1  siz     4  off     0
+ 94671115002800         red  CONST  typ INTEGER  val  0
+ 94671115002960       white  CONST  typ INTEGER  val  1
+ 94671115003120        blue  CONST  typ INTEGER  val  2
+ 94671115003312       color  TYPE   typ 94671115003216  lvl  1  siz     4  off     0
   0 ..   2
- 94370148673168      person  TYPE   typ 94370148675472  lvl  1  siz    48  off     0
+ 94671115003824      person  TYPE   typ 94671115005552  lvl  1  siz    48  off     0
 (RECORD (age integer)
         (friend (^ person))
         (location (RECORD (re real)
                           (im real)))
         (favorite   0 ..   2)
         (salary real))
- 94370148673360          pp  TYPE   typ 94370148673264  lvl  1  siz     8  off     0
+ 94671115003920          pp  TYPE   typ 94671115003728  lvl  1  siz     8  off     0
 (^ person)
- 94370148675952        john  VAR    4 typ 94370148673264  lvl  1  siz     8  off     0
+ 94671115006512        john  VAR    4 typ 94671115003728  lvl  1  siz     8  off     0
 (^ person)
+yyparse result =        0
 (program graph1 (progn output)
                 (progn (:= (aref (^ john)
                                  0)
@@ -55,23 +120,17 @@ graph1:
 	movq	%rbx, %r9        # save %rbx (callee-saved) in %r9
 # ------------------------- begin Your code -----------------------------
 	movl	$19,%eax         	#  19 -> %eax
-	movq	-32(%rbp),%rcx     	#  john -> %rcx
-	movl	%eax,0(%rcx)         	#  %eax -> ^. [0+%rcx]
-	movl	$19,%eax         	#  19 -> %eax
-	movq	-32(%rbp),%rcx     	#  john -> %rcx
-	movl	%eax,0(%rcx)         	#  %eax -> ^. [0+%rcx]
-	movl	$19,%eax         	#  19 -> %eax
-	movq	-32(%rbp),%rcx     	#  john -> %rcx
-	movl	%eax,0(%rcx)         	#  %eax -> ^. [0+%rcx]
-	movl	$19,%eax         	#  19 -> %eax
-	movq	-32(%rbp),%rcx     	#  john -> %rcx
-	movl	%eax,0(%rcx)         	#  %eax -> ^. [0+%rcx]
-	movl	$19,%eax         	#  19 -> %eax
-	movq	-32(%rbp),%rcx     	#  john -> %rcx
-	movl	%eax,0(%rcx)         	#  %eax -> ^. [0+%rcx]
-	movl	$19,%eax         	#  19 -> %eax
-	movq	-32(%rbp),%rcx     	#  john -> %rcx
-	movl	%eax,0(%rcx)         	#  %eax -> ^. [0+%rcx]
+	movl	%eax,-32(%rbp)     	#  %eax -> 
+	movl	$19,%ecx         	#  19 -> %ecx
+	movl	%ecx,-32(%rbp)     	#  %ecx -> 
+	movl	$19,%edx         	#  19 -> %edx
+	movl	%edx,-32(%rbp)     	#  %edx -> 
+	movl	$19,%ebx         	#  19 -> %ebx
+	movl	%ebx,-32(%rbp)     	#  %ebx -> 
+	movl	$19,(null)         	#  19 -> (null)
+	movl	(null),-32(%rbp)     	#  (null) -> 
+	movl	$19,(null)         	#  19 -> (null)
+	movl	(null),-32(%rbp)     	#  (null) -> 
 # ----------------------- begin Epilogue code ---------------------------
 	movq	%r9, %rbx        # restore %rbx (callee-saved) from %r9
         leave

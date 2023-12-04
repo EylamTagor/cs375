@@ -1,3 +1,68 @@
+Symbol table level 0
+ 94159179702944        real  BASIC  basicdt   1          siz     8
+ 94159179703040     integer  BASIC  basicdt   0          siz     4
+ 94159179703136        char  BASIC  basicdt   2          siz     1
+ 94159179703232     boolean  BASIC  basicdt   3          siz     4
+ 94159179703328         exp  knd 5 0  typ 94159179703424  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94159179703616       trexp  knd 5 0  typ 94159179703712  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94159179703904         sin  knd 5 0  typ 94159179704000  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94159179704192         cos  knd 5 0  typ 94159179704288  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94159179704480       trsin  knd 5 0  typ 94159179704576  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94159179704768        sqrt  knd 5 0  typ 94159179704864  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94159179705056       round  knd 5 0  typ 94159179705152  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94159179705344      iround  knd 5 0  typ 94159179705440  lvl  0  siz     0  off     0
+(FUNCTION integer
+          real)
+ 94159179705632         ord  knd 5 0  typ 94159179705728  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94159179705920         new  knd 5 0  typ 94159179706016  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94159179706208       trnew  knd 5 0  typ 94159179706304  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94159179706496       write  knd 5 0  typ 94159179706592  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94159179706784     writeln  knd 5 0  typ 94159179706880  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94159179707072      writef  knd 5 0  typ 94159179707168  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94159179707360    writelnf  knd 5 0  typ 94159179707456  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94159179707648      writei  knd 5 0  typ 94159179707744  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94159179707936    writelni  knd 5 0  typ 94159179708032  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94159179708224        read  knd 5 0  typ 94159179708320  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94159179708512      readln  knd 5 0  typ 94159179708608  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94159179708800         eof  knd 5 0  typ 94159179708896  lvl  0  siz     0  off     0
+(FUNCTION boolean
+          NULL)
 yyparse result =        0
 (program graph1 (progn output)
                 (progn (funcall write 'i = ')))
@@ -17,7 +82,6 @@ graph1:
         subq	$16, %rsp 	  # make space for this stack frame
 	movq	%rbx, %r9        # save %rbx (callee-saved) in %r9
 # ------------------------- begin Your code -----------------------------
-	leaq	.LC1(%rip),%rdi  	#  addr of literal .LC1
 	call	write@PLT          	#  write()
 # ----------------------- begin Epilogue code ---------------------------
 	movq	%r9, %rbx        # restore %rbx (callee-saved) from %r9
@@ -28,8 +92,5 @@ graph1:
         .size   graph1, .-graph1
 # ----------------- end Epilogue; Literal data follows ------------------
         .section        .rodata
-	.align  4
-.LC1:
-	.string	"i = "
 
         .ident  "CS 375 Compiler - Spring 2022"

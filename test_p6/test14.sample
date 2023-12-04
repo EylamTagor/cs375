@@ -1,13 +1,78 @@
-yyparse result =        0
+Symbol table level 0
+ 93968821019296        real  BASIC  basicdt   1          siz     8
+ 93968821019392     integer  BASIC  basicdt   0          siz     4
+ 93968821019488        char  BASIC  basicdt   2          siz     1
+ 93968821019584     boolean  BASIC  basicdt   3          siz     4
+ 93968821019680         exp  knd 5 0  typ 93968821019776  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 93968821019968       trexp  knd 5 0  typ 93968821020064  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 93968821020256         sin  knd 5 0  typ 93968821020352  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 93968821020544         cos  knd 5 0  typ 93968821020640  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 93968821020832       trsin  knd 5 0  typ 93968821020928  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 93968821021120        sqrt  knd 5 0  typ 93968821021216  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 93968821021408       round  knd 5 0  typ 93968821021504  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 93968821021696      iround  knd 5 0  typ 93968821021792  lvl  0  siz     0  off     0
+(FUNCTION integer
+          real)
+ 93968821021984         ord  knd 5 0  typ 93968821022080  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 93968821022272         new  knd 5 0  typ 93968821022368  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 93968821022560       trnew  knd 5 0  typ 93968821022656  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 93968821022848       write  knd 5 0  typ 93968821022944  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 93968821023136     writeln  knd 5 0  typ 93968821023232  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 93968821023424      writef  knd 5 0  typ 93968821023520  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 93968821023712    writelnf  knd 5 0  typ 93968821023808  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 93968821024000      writei  knd 5 0  typ 93968821024096  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 93968821024288    writelni  knd 5 0  typ 93968821024384  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 93968821024576        read  knd 5 0  typ 93968821024672  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 93968821024864      readln  knd 5 0  typ 93968821024960  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 93968821025152         eof  knd 5 0  typ 93968821025248  lvl  0  siz     0  off     0
+(FUNCTION boolean
+          NULL)
 Symbol table level 1
- 94830709456464         ptr  VAR    4 typ 94830709456368  lvl  1  siz     8  off     0
+ 93968821050960         ptr  VAR    4 typ 93968821050864  lvl  1  siz     8  off     0
 (^ integer)
- 94830709456880           i  VAR    0 typ integer  lvl  1  siz     4  off     8
+ 93968821051376           i  VAR    0 typ integer  lvl  1  siz     4  off     8
+yyparse result =        0
 (program graph1 (progn output)
-                (progn (label 0)
-                       (if (<> ptr 0)
-                           (progn (:= i (+ i 1))
-                                  (goto 0)))))
+                (progn (progn (label 0)
+                              (if (<> ptr res 15)
+                                  (progn (progn (:= i (+ i 1)))
+                                         (goto 0))))))
 # ---------------- Beginning of Generated Code --------------------
         .file   "foo"
         .text
@@ -25,15 +90,12 @@ graph1:
 	movq	%rbx, %r9        # save %rbx (callee-saved) in %r9
 # ------------------------- begin Your code -----------------------------
 .L0:
-	movq	-32(%rbp),%rax     	#  ptr -> %rax
-	movq	$0,%rcx         	#  0 -> %rcx
-	cmpq	%rcx,%rax           	#  compare %rax - %rcx
-	jne	.L2 			#  jump if     !=
+	jmp	.L2 			#  jump 
 	jmp	.L3 			#  jump 
 .L2:
 	movl	-24(%rbp),%eax     	#  i -> %eax
 	movl	$1,%ecx         	#  1 -> %ecx
-	addl	%ecx,%eax         	#  %eax + %ecx -> %eax
+	movl	%ecx,%eax         	#  %ecx -> %eax
 	movl	%eax,-24(%rbp)     	#  %eax -> i
 	jmp	.L0 			#  jump 
 .L3:

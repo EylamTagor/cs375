@@ -1,9 +1,74 @@
-yyparse result =        0
+Symbol table level 0
+ 94283206746784        real  BASIC  basicdt   1          siz     8
+ 94283206746880     integer  BASIC  basicdt   0          siz     4
+ 94283206746976        char  BASIC  basicdt   2          siz     1
+ 94283206747072     boolean  BASIC  basicdt   3          siz     4
+ 94283206747168         exp  knd 5 0  typ 94283206747264  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94283206747456       trexp  knd 5 0  typ 94283206747552  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94283206747744         sin  knd 5 0  typ 94283206747840  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94283206748032         cos  knd 5 0  typ 94283206748128  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94283206748320       trsin  knd 5 0  typ 94283206748416  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94283206748608        sqrt  knd 5 0  typ 94283206748704  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94283206748896       round  knd 5 0  typ 94283206748992  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94283206749184      iround  knd 5 0  typ 94283206749280  lvl  0  siz     0  off     0
+(FUNCTION integer
+          real)
+ 94283206749472         ord  knd 5 0  typ 94283206749568  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94283206749760         new  knd 5 0  typ 94283206749856  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94283206750048       trnew  knd 5 0  typ 94283206750144  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94283206750336       write  knd 5 0  typ 94283206750432  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94283206750624     writeln  knd 5 0  typ 94283206750720  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94283206750912      writef  knd 5 0  typ 94283206751008  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94283206751200    writelnf  knd 5 0  typ 94283206751296  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94283206751488      writei  knd 5 0  typ 94283206751584  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94283206751776    writelni  knd 5 0  typ 94283206751872  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94283206752064        read  knd 5 0  typ 94283206752160  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94283206752352      readln  knd 5 0  typ 94283206752448  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94283206752640         eof  knd 5 0  typ 94283206752736  lvl  0  siz     0  off     0
+(FUNCTION boolean
+          NULL)
 Symbol table level 1
- 94545560903280           x  VAR    1 typ    real  lvl  1  siz     8  off     0
- 94545560903376           y  VAR    1 typ    real  lvl  1  siz     8  off     8
+ 94283206778480           x  VAR    1 typ    real  lvl  1  siz     8  off     0
+ 94283206778576           y  VAR    1 typ    real  lvl  1  siz     8  off     8
+yyparse result =        0
 (program graph1 (progn output)
-                (progn (:= x (- y))))
+                (progn (:= x (float (- y)))))
 # ---------------- Beginning of Generated Code --------------------
         .file   "foo"
         .text
@@ -20,9 +85,10 @@ graph1:
         subq	$32, %rsp 	  # make space for this stack frame
 	movq	%rbx, %r9        # save %rbx (callee-saved) in %r9
 # ------------------------- begin Your code -----------------------------
-	movsd	-24(%rbp),%xmm0     	#  y -> %xmm0
-	movsd	.LC666(%rip),%xmm1   	#  0.000000 -> %xmm1
-	xorpd	%xmm1,%xmm0           	#  negate %xmm0
+	movsd	-24(%rbp),%xmm1     	#  y -> %xmm1
+	movsd	.LC666(%rip),%xmm2   	#  0.000000 -> %xmm2
+	xorpd	%xmm2,%xmm1           	#  negate %xmm1
+	cvttsd2si	%xmm2,%xmm0    	#  fix %xmm2 -> %xmm0
 	movsd	%xmm0,-32(%rbp)     	#  %xmm0 -> x
 # ----------------------- begin Epilogue code ---------------------------
 	movq	%r9, %rbx        # restore %rbx (callee-saved) from %r9

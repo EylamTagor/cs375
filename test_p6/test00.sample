@@ -1,6 +1,71 @@
-yyparse result =        0
+Symbol table level 0
+ 94342891754144        real  BASIC  basicdt   1          siz     8
+ 94342891754240     integer  BASIC  basicdt   0          siz     4
+ 94342891754336        char  BASIC  basicdt   2          siz     1
+ 94342891754432     boolean  BASIC  basicdt   3          siz     4
+ 94342891754528         exp  knd 5 0  typ 94342891754624  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94342891754816       trexp  knd 5 0  typ 94342891754912  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94342891755104         sin  knd 5 0  typ 94342891755200  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94342891755392         cos  knd 5 0  typ 94342891755488  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94342891755680       trsin  knd 5 0  typ 94342891755776  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94342891755968        sqrt  knd 5 0  typ 94342891756064  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94342891756256       round  knd 5 0  typ 94342891756352  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94342891756544      iround  knd 5 0  typ 94342891756640  lvl  0  siz     0  off     0
+(FUNCTION integer
+          real)
+ 94342891756832         ord  knd 5 0  typ 94342891756928  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94342891757120         new  knd 5 0  typ 94342891757216  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94342891757408       trnew  knd 5 0  typ 94342891757504  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94342891757696       write  knd 5 0  typ 94342891757792  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94342891757984     writeln  knd 5 0  typ 94342891758080  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94342891758272      writef  knd 5 0  typ 94342891758368  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94342891758560    writelnf  knd 5 0  typ 94342891758656  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94342891758848      writei  knd 5 0  typ 94342891758944  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94342891759136    writelni  knd 5 0  typ 94342891759232  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94342891759424        read  knd 5 0  typ 94342891759520  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94342891759712      readln  knd 5 0  typ 94342891759808  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94342891760000         eof  knd 5 0  typ 94342891760096  lvl  0  siz     0  off     0
+(FUNCTION boolean
+          NULL)
 Symbol table level 1
- 94223101758960           i  VAR    0 typ integer  lvl  1  siz     4  off     0
+ 94342891785712           i  VAR    0 typ integer  lvl  1  siz     4  off     0
+yyparse result =        0
 (program graph1 (progn output)
                 (progn (:= i 1)))
 # ---------------- Beginning of Generated Code --------------------
