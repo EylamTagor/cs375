@@ -37,7 +37,7 @@ void genc(TOKEN code);
 
 int nextlabel;    /* Next available label number */
 int stkframesize;   /* total stack frame size */
-int regs[REGISTERS]; /* List of all registers */
+int regs[32]; /* List of all registers */
 
 int inttable[64], realtable[64], ptrtable[64], jumptable[64];
 
@@ -137,7 +137,7 @@ int genarith(TOKEN code)
               case REAL:
                   /*     ***** fix this *****   */
                   reg = getreg(WORD);
-                  makeflit(value, nextlabel + 1);
+                  makeflit(code->realval, nextlabel + 1);
                   asmldflit(MOVSD, nextlabel + 1, reg);
                   ++nextlabel;
                   break;
@@ -145,10 +145,12 @@ int genarith(TOKEN code)
 	          break;
         case IDENTIFIERTOK:
           /*     ***** fix this *****   */
-          int type = code->basicdt == REAL ? 2 : 1;
-          reg = getreg(type);
+          reg = getreg(1);
+          if (code->basicdt == REAL) {
+            reg = getreg(2);
+          }
           int instr = code->basicdt == INTEGER ? MOVL : (code->basicdt == REAL ? MOVSD : MOVQ);
-          asmld(instr, code->symentry->offset - stkframesize, code->stringval);
+          asmld(instr, code->symentry->offset - stkframesize, reg, code->stringval);
 	        break;
         case OPERATOR:
           /*     ***** fix this *****   */

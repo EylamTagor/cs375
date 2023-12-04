@@ -1,0 +1,119 @@
+Symbol table level 0
+ 94799645258400        real  BASIC  basicdt   1          siz     8
+ 94799645258496     integer  BASIC  basicdt   0          siz     4
+ 94799645258592        char  BASIC  basicdt   2          siz     1
+ 94799645258688     boolean  BASIC  basicdt   3          siz     4
+ 94799645258784         exp  knd 5 0  typ 94799645258880  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94799645259072       trexp  knd 5 0  typ 94799645259168  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94799645259360         sin  knd 5 0  typ 94799645259456  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94799645259648         cos  knd 5 0  typ 94799645259744  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94799645259936       trsin  knd 5 0  typ 94799645260032  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94799645260224        sqrt  knd 5 0  typ 94799645260320  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94799645260512       round  knd 5 0  typ 94799645260608  lvl  0  siz     0  off     0
+(FUNCTION real
+          real)
+ 94799645260800      iround  knd 5 0  typ 94799645260896  lvl  0  siz     0  off     0
+(FUNCTION integer
+          real)
+ 94799645261088         ord  knd 5 0  typ 94799645261184  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94799645261376         new  knd 5 0  typ 94799645261472  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94799645261664       trnew  knd 5 0  typ 94799645261760  lvl  0  siz     0  off     0
+(FUNCTION integer
+          integer)
+ 94799645261952       write  knd 5 0  typ 94799645262048  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94799645262240     writeln  knd 5 0  typ 94799645262336  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          char)
+ 94799645262528      writef  knd 5 0  typ 94799645262624  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94799645262816    writelnf  knd 5 0  typ 94799645262912  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          real)
+ 94799645263104      writei  knd 5 0  typ 94799645263200  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94799645263392    writelni  knd 5 0  typ 94799645263488  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          integer)
+ 94799645263680        read  knd 5 0  typ 94799645263776  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94799645263968      readln  knd 5 0  typ 94799645264064  lvl  0  siz     0  off     0
+(FUNCTION NULL
+          NULL)
+ 94799645264256         eof  knd 5 0  typ 94799645264352  lvl  0  siz     0  off     0
+(FUNCTION boolean
+          NULL)
+Symbol table level 1
+ 94799645290096           i  VAR    0 typ integer  lvl  1  siz     4  off     0
+ 94799645290192         lim  VAR    0 typ integer  lvl  1  siz     4  off     4
+yyparse result =        0
+(program graph1 (progn output)
+                (progn (:= lim 7)
+                       (progn (:= i 0)
+                              (label 0)
+                              (if (<= i lim)
+                                  (progn (funcall writeln '*')
+                                         (:= i (+ i 1))
+                                         (goto 0))))))
+# ---------------- Beginning of Generated Code --------------------
+        .file   "foo"
+        .text
+        .globl graph1
+        .type   graph1, @function
+graph1:
+.LFB0:
+	.cfi_startproc
+	pushq	%rbp              # save base pointer on stack
+	.cfi_def_cfa_offset 16
+	movq	%rsp, %rbp        # move stack pointer to base pointer
+	.cfi_offset 6, -16
+	.cfi_def_cfa_register 6
+        subq	$32, %rsp 	  # make space for this stack frame
+	movq	%rbx, %r9        # save %rbx (callee-saved) in %r9
+# ------------------------- begin Your code -----------------------------
+	movl	$7,%eax         	#  7 -> %eax
+	movl	%eax,-28(%rbp)     	#  %eax -> lim
+	movl	$0,%ecx         	#  0 -> %ecx
+	movl	%ecx,-32(%rbp)     	#  %ecx -> i
+.L0:
+	jmp	.L2 			#  jump 
+	jmp	.L3 			#  jump 
+.L2:
+	call	writeln@PLT          	#  writeln()
+	movl	-32(%rbp),%edx     	#  i -> %edx
+	movl	$1,%ebx         	#  1 -> %ebx
+	movl	%ebx,%edx         	#  %ebx -> %edx
+	movl	%edx,-32(%rbp)     	#  %edx -> i
+	jmp	.L0 			#  jump 
+.L3:
+# ----------------------- begin Epilogue code ---------------------------
+	movq	%r9, %rbx        # restore %rbx (callee-saved) from %r9
+        leave
+        ret
+        .cfi_endproc
+.LFE0:
+        .size   graph1, .-graph1
+# ----------------- end Epilogue; Literal data follows ------------------
+        .section        .rodata
+
+        .ident  "CS 375 Compiler - Spring 2022"
